@@ -1,21 +1,22 @@
 """
-AI-powered code fixer.
-Reads source files from the target repo, calls Gemini to generate a fix,
-then opens a PR with the changes.
+AI-powered code fixer using Claude Sonnet.
+Reads source files from the target repo, asks Claude for surgical edits,
+applies them as targeted str_replace operations, then opens a PR.
 """
 import os
 import sys
 import json
 import re
+import ast
 import time
 import base64
 import requests
 
-CHANNEL    = os.environ['CHANNEL']        # 'friends' or 'himym'
-ACTION     = os.environ['ACTION_ITEM']
-WHY        = os.environ.get('WHY', '')
-GEMINI_KEY = os.environ['GEMINI_API_KEY'].strip()
-PAT        = os.environ['FIX_PAT']
+CHANNEL        = os.environ['CHANNEL']        # 'friends' or 'himym'
+ACTION         = os.environ['ACTION_ITEM']
+WHY            = os.environ.get('WHY', '')
+ANTHROPIC_KEY  = os.environ['ANTHROPIC_API_KEY'].strip()
+PAT            = os.environ['FIX_PAT']
 
 REPO_MAP = {
     'friends': 'rg-incognito/shortgen',
@@ -27,8 +28,6 @@ if not TARGET:
     sys.exit(1)
 
 GH  = 'https://api.github.com'
-GEM = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent'
-
 GH_HEADERS = {
     'Authorization':        f'Bearer {PAT}',
     'Accept':               'application/vnd.github+json',
@@ -43,6 +42,8 @@ FILES_TO_READ = [
     'src/reframer.py',
 ]
 
+
+# ── GitHub helpers ────────────────────────────────────────────────────────────
 
 def gh_get_file(repo, path):
     r = requests.get(f'{GH}/repos/{repo}/contents/{path}', headers=GH_HEADERS, timeout=30)
@@ -62,7 +63,7 @@ def gh_get_default_sha(repo, branch='master'):
 def gh_create_branch(repo, branch, sha):
     r = requests.post(f'{GH}/repos/{repo}/git/refs', headers=GH_HEADERS,
                       json={'ref': f'refs/heads/{branch}', 'sha': sha}, timeout=30)
-    if r.status_code not in (201, 422):  # 422 = branch already exists
+    if r.status_code not in (201, 422):
         r.raise_for_status()
 
 
@@ -87,28 +88,64 @@ def gh_create_pr(repo, title, body, head, base='master'):
     return r.json()['html_url']
 
 
-def call_gemini(prompt, retries=3):
+# ── Claude Sonnet ─────────────────────────────────────────────────────────────
+
+def call_claude(prompt: str, retries: int = 3) -> str:
+    headers = {
+        'x-api-key':         ANTHROPIC_KEY,
+        'anthropic-version': '2023-06-01',
+        'content-type':      'application/json',
+    }
     payload = {
-        'contents':        [{'parts': [{'text': prompt}]}],
-        'generationConfig': {'temperature': 0.2},
+        'model':      'claude-sonnet-4-6',
+        'max_tokens': 8192,
+        'messages':   [{'role': 'user', 'content': prompt}],
     }
     for attempt in range(1, retries + 1):
         try:
-            r = requests.post(GEM, params={'key': GEMINI_KEY}, json=payload, timeout=120)
+            r = requests.post('https://api.anthropic.com/v1/messages',
+                              headers=headers, json=payload, timeout=120)
             r.raise_for_status()
-            raw = r.json()['candidates'][0]['content']['parts'][0]['text'].strip()
-            raw = re.sub(r'^```(?:json)?\s*', '', raw, flags=re.MULTILINE)
-            raw = re.sub(r'\s*```$',          '', raw, flags=re.MULTILINE)
-            return json.loads(raw)
+            return r.json()['content'][0]['text']
         except Exception as e:
-            print(f'  Gemini attempt {attempt} failed: {e}')
+            print(f'  Claude attempt {attempt} failed: {e}')
             if attempt < retries:
                 time.sleep(20)
-    raise RuntimeError('Gemini failed after all retries')
+    raise RuntimeError('Claude failed after all retries')
 
+
+# ── Python syntax check ───────────────────────────────────────────────────────
+
+def _is_valid_python(src: str) -> bool:
+    try:
+        ast.parse(src)
+        return True
+    except SyntaxError as e:
+        print(f'  Syntax error: {e}')
+        return False
+
+
+# ── Apply str_replace edits ───────────────────────────────────────────────────
+
+def apply_edits(original: str, edits: list, filepath: str) -> str:
+    result = original
+    for i, edit in enumerate(edits):
+        old = edit['old_string']
+        new = edit['new_string']
+        if old not in result:
+            raise ValueError(
+                f'Edit #{i+1} in {filepath}: old_string not found in file.\n'
+                f'old_string was: {old[:120]!r}'
+            )
+        result = result.replace(old, new, 1)
+    return result
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
     print(f'Target repo : {TARGET}')
+    print(f'Channel     : {CHANNEL}')
     print(f'Action      : {ACTION}')
     print(f'Why         : {WHY}')
 
@@ -120,69 +157,108 @@ def main():
         if content is not None:
             file_data[path] = {'content': content, 'sha': sha}
             print(f'      {path} ({len(content):,} chars)')
-        else:
-            print(f'      {path} — not found, skipping')
 
-    # ── 2. Gemini generates fix ───────────────────────────────────────────────
-    print('\n[2/4] Asking Gemini to generate fix...')
     series = 'How I Met Your Mother' if CHANNEL == 'himym' else 'Friends'
-
     files_block = '\n\n'.join(
-        f'=== {p} ===\n{d["content"]}' for p, d in file_data.items()
+        f'### {p}\n```python\n{d["content"]}\n```' for p, d in file_data.items()
     )
 
-    prompt = f"""You are an expert Python developer maintaining a YouTube Shorts automation pipeline for a {series} clips channel.
+    # ── 2. Claude generates surgical edits ───────────────────────────────────
+    print('\n[2/4] Asking Claude to generate surgical fix...')
 
-ACTION ITEM TO IMPLEMENT:
-{ACTION}
+    prompt = f"""You are a senior Python engineer maintaining a YouTube Shorts automation pipeline for a {series} clips channel on GitHub.
 
-WHY IT MATTERS:
-{WHY}
+## Task
+Implement this specific action item by making MINIMAL, SURGICAL code changes:
 
-CURRENT SOURCE FILES:
+**Action item:** {ACTION}
+
+**Why it matters:** {WHY}
+
+## Source files (read carefully before editing)
+
 {files_block}
 
-Your job: make the minimal, targeted code change that implements the action item.
-- Only modify files that actually need to change
-- Do NOT add comments about what you changed
-- Keep all existing logic intact — just implement the specific improvement
-- If the action involves the Gemini prompt (e.g. changing title format, adding storyline types, adjusting clip lengths), modify _PROMPT or _YT_PROMPT in analyzer.py
-- If the action involves video processing (captions, font, layout), modify captioner.py or reframer.py
+## Instructions
 
-Return ONLY valid JSON with no markdown:
+1. Identify EXACTLY which lines need to change to implement the action item
+2. Make the smallest possible edit — change only what is necessary
+3. Do NOT rewrite entire functions or files
+4. Do NOT change unrelated code, variable names, or formatting
+5. Ensure the logic is correct — think through side effects before editing
+6. If the action involves a prompt string in analyzer.py, edit only that specific part of the string
+
+Return ONLY a valid JSON object (no markdown, no explanation):
 {{
-  "branch_name": "fix/short-kebab-slug",
+  "branch_name": "fix/short-slug-under-40-chars",
   "pr_title": "fix: short description (under 60 chars)",
-  "pr_body": "## What changed\\n- specific bullet\\n\\n## Why\\n{WHY}\\n\\n## Expected impact\\n...",
-  "changes": [
+  "pr_body": "## What changed\\n- specific bullet describing exact change\\n\\n## Why\\n{WHY}\\n\\n## Expected outcome\\n...",
+  "edits": [
     {{
       "file": "src/analyzer.py",
-      "new_content": "...complete new file content..."
+      "old_string": "exact verbatim text from the file to be replaced — must match 100%",
+      "new_string": "the replacement text"
     }}
   ]
-}}"""
+}}
 
-    fix = call_gemini(prompt)
+CRITICAL: `old_string` must be the EXACT text from the file above, character for character including whitespace and indentation. If it doesn't match exactly, the edit will fail."""
+
+    raw = call_claude(prompt)
+    raw = re.sub(r'^```(?:json)?\s*', '', raw.strip(), flags=re.MULTILINE)
+    raw = re.sub(r'\s*```$',          '', raw,          flags=re.MULTILINE)
+
+    try:
+        fix = json.loads(raw)
+    except json.JSONDecodeError as e:
+        print(f'Claude returned invalid JSON: {e}')
+        print(raw[:500])
+        sys.exit(1)
+
     print(f'      Branch  : {fix["branch_name"]}')
     print(f'      PR title: {fix["pr_title"]}')
-    print(f'      Files   : {[c["file"] for c in fix["changes"]]}')
+    print(f'      Edits   : {len(fix["edits"])} change(s) across {len({e["file"] for e in fix["edits"]})} file(s)')
 
-    # ── 3. Create branch + apply changes ─────────────────────────────────────
-    print('\n[3/4] Creating branch and applying changes...')
+    # ── 3. Apply edits locally + validate ────────────────────────────────────
+    print('\n[3/4] Applying edits and validating...')
+    patched: dict[str, str] = {}
+    for edit in fix['edits']:
+        path = edit['file']
+        if path not in file_data:
+            print(f'  SKIP: {path} was not in the files we read')
+            continue
+        original = file_data[path]['content']
+        try:
+            updated = apply_edits(
+                patched.get(path, original),
+                [edit],
+                path,
+            )
+        except ValueError as e:
+            print(f'  ERROR: {e}')
+            sys.exit(1)
+
+        if path.endswith('.py') and not _is_valid_python(updated):
+            print(f'  ERROR: {path} has syntax errors after edit — aborting')
+            sys.exit(1)
+
+        patched[path] = updated
+        print(f'      Patched {path}')
+
+    if not patched:
+        print('No files were patched — nothing to commit')
+        sys.exit(1)
+
+    # ── 4. Create branch, push files, open PR ────────────────────────────────
+    print('\n[4/4] Creating branch and opening PR...')
     base_sha    = gh_get_default_sha(TARGET)
     branch_name = fix['branch_name']
     gh_create_branch(TARGET, branch_name, base_sha)
 
-    for change in fix['changes']:
-        path  = change['file']
-        old   = file_data.get(path, {})
-        sha   = old.get('sha')
-        msg   = f'{fix["pr_title"]} — {path}'
-        gh_update_file(TARGET, path, msg, change['new_content'], sha, branch_name)
-        print(f'      Updated {path}')
+    for path, new_content in patched.items():
+        sha = file_data[path]['sha']
+        gh_update_file(TARGET, path, f'{fix["pr_title"]} [{path}]', new_content, sha, branch_name)
 
-    # ── 4. Open PR ────────────────────────────────────────────────────────────
-    print('\n[4/4] Opening pull request...')
     pr_url = gh_create_pr(TARGET, fix['pr_title'], fix['pr_body'], branch_name)
     print(f'\nDone! PR: {pr_url}')
 

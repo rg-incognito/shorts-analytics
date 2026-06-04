@@ -1,0 +1,41 @@
+name: Ask Expert
+
+on:
+  workflow_dispatch:
+    inputs:
+      question:
+        description: 'Question for the social media expert agent'
+        required: true
+
+jobs:
+  ask:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run expert agent
+        run: python src/expert_agent.py
+        env:
+          QUESTION:       ${{ github.event.inputs.question }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FIX_PAT:        ${{ secrets.FIX_PAT }}
+
+      - name: Commit response
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/expert_response.json
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "expert: response to question"
+          git push

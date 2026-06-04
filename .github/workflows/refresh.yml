@@ -35,6 +35,6 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/index.html
+          git add docs/index.html docs/analytics_data.json
           git diff --cached --quiet || git commit -m "chore: refresh analytics report [skip ci]"
           git push

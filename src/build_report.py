@@ -246,6 +246,27 @@ def build_html(analysis: dict, c1_videos: list, c2_videos: list) -> str:
 
   .done-banner {{ background: #14532d22; border: 1px solid var(--green); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--green); margin-top: 4px; }}
 
+  /* ── Expert Agent tab ── */
+  .expert-wrap {{ max-width: 860px; }}
+  .expert-input-card {{ background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; }}
+  .expert-input-card h3 {{ font-size: 16px; font-weight: 700; margin-bottom: 6px; }}
+  .expert-desc {{ font-size: 13px; color: var(--muted); margin-bottom: 12px; }}
+  .expert-textarea {{ width: 100%; background: #0f172a; border: 1px solid var(--border); color: var(--text); font-size: 14px; padding: 12px; border-radius: 8px; min-height: 90px; resize: vertical; font-family: inherit; }}
+  .expert-textarea:focus {{ outline: none; border-color: var(--accent); }}
+  .ask-btn {{ background: var(--accent); color: #fff; border: none; padding: 10px 22px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; margin-top: 12px; }}
+  .ask-btn:hover {{ background: #4f46e5; }}
+  .ask-btn:disabled {{ opacity: .5; cursor: not-allowed; }}
+  .expert-status {{ font-size: 13px; color: var(--muted); margin-top: 10px; }}
+  .expert-response-card {{ background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }}
+  .expert-q-echo {{ font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 16px; border-left: 3px solid var(--border); padding-left: 12px; }}
+  .expert-answer {{ font-size: 14px; line-height: 1.85; margin-bottom: 20px; white-space: pre-wrap; }}
+  .expert-changes {{ list-style: none; padding: 0; }}
+  .expert-changes li {{ padding: 8px 12px; background: #0f172a; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 6px; font-size: 12px; font-family: monospace; line-height: 1.5; }}
+  .followup-wrap {{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }}
+  .followup-btn {{ background: #1e293b; border: 1px solid var(--border); color: var(--text); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 12px; }}
+  .followup-btn:hover {{ border-color: var(--accent); color: var(--accent); }}
+  .expert-ts {{ font-size: 11px; color: var(--muted); margin-top: 16px; }}
+
   footer {{ text-align: center; color: var(--muted); font-size: 12px; padding: 24px; border-top: 1px solid var(--border); margin-top: 24px; }}
 </style>
 </head>
@@ -260,6 +281,7 @@ def build_html(analysis: dict, c1_videos: list, c2_videos: list) -> str:
 <div class="tabs">
   <button class="tab-btn active" onclick="switchTab('dashboard', this)">Dashboard</button>
   <button class="tab-btn" onclick="switchTab('actions', this)">Action Items <span class="tab-count">{total_actions}</span></button>
+  <button class="tab-btn" onclick="switchTab('expert', this)">Expert Agent</button>
 </div>
 
 <!-- ═══════════════ DASHBOARD TAB ═══════════════ -->
@@ -305,6 +327,29 @@ def build_html(analysis: dict, c1_videos: list, c2_videos: list) -> str:
     <!-- Rendered by JS from embedded data -->
   </div>
 
+</main>
+</div>
+
+<!-- ═══════════════ EXPERT AGENT TAB ═══════════════ -->
+<div id="tab-expert" class="tab-content">
+<main>
+  <div class="expert-wrap">
+
+    <div class="expert-input-card">
+      <h3>Social Media Expert Agent</h3>
+      <p class="expert-desc">The agent reads your live analytics data <em>and</em> the actual pipeline code from both repos before answering.</p>
+      <textarea id="expert-question" class="expert-textarea"
+        placeholder="e.g. Why is one channel outperforming the other? What should I change in the captioner to boost retention?"></textarea>
+      <br>
+      <button class="ask-btn" id="ask-btn" onclick="askExpert()">Ask Expert</button>
+      <p id="expert-status" class="expert-status"></p>
+    </div>
+
+    <div id="expert-response-area" style="display:none">
+      <!-- Rendered by JS -->
+    </div>
+
+  </div>
 </main>
 </div>
 
@@ -445,6 +490,132 @@ async function fixIt(idx) {{
 }}
 
 renderActions();
+
+// ── Expert Agent ──────────────────────────────────────────────────────────────
+let expertPollTimer = null;
+let expertDispatchTime = parseInt(localStorage.getItem('expert_dispatch_time') || '0');
+
+function askExpert() {{
+  const pat = localStorage.getItem('gh_pat') || document.getElementById('pat-input').value.trim();
+  if (!pat) {{
+    setExpertStatus('Enter your GitHub PAT in the Action Items tab first', 'var(--red)');
+    return;
+  }}
+  const question = document.getElementById('expert-question').value.trim();
+  if (!question) {{
+    setExpertStatus('Please enter a question first', 'var(--red)');
+    return;
+  }}
+
+  const btn = document.getElementById('ask-btn');
+  btn.textContent = 'Dispatching…';
+  btn.disabled = true;
+  setExpertStatus('', '');
+
+  fetch(`https://api.github.com/repos/${{ANALYTICS_REPO}}/actions/workflows/ask_expert.yml/dispatches`, {{
+    method: 'POST',
+    headers: {{
+      'Authorization':        'Bearer ' + pat,
+      'Accept':               'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Content-Type':         'application/json',
+    }},
+    body: JSON.stringify({{ ref: 'master', inputs: {{ question }} }})
+  }}).then(async resp => {{
+    if (resp.status === 204) {{
+      btn.textContent = 'Waiting for response…';
+      setExpertStatus('⏳ Dispatched — the agent usually responds in ~90 seconds', 'var(--yellow)');
+      expertDispatchTime = Date.now();
+      localStorage.setItem('expert_dispatch_time', expertDispatchTime);
+      localStorage.setItem('expert_question', question);
+      startExpertPolling();
+    }} else {{
+      btn.textContent = 'Ask Expert';
+      btn.disabled = false;
+      const msg = resp.status === 401 ? 'PAT invalid or expired' :
+                  resp.status === 403 ? 'PAT lacks workflow scope' :
+                  'Dispatch error ' + resp.status;
+      setExpertStatus(msg, 'var(--red)');
+    }}
+  }}).catch(e => {{
+    btn.textContent = 'Ask Expert';
+    btn.disabled = false;
+    setExpertStatus('Network error — ' + e.message, 'var(--red)');
+  }});
+}}
+
+function setExpertStatus(msg, color) {{
+  const el = document.getElementById('expert-status');
+  el.textContent = msg;
+  el.style.color = color || 'var(--muted)';
+}}
+
+function startExpertPolling() {{
+  if (expertPollTimer) clearInterval(expertPollTimer);
+  expertPollTimer = setInterval(pollExpertResponse, 10000);
+}}
+
+async function pollExpertResponse() {{
+  try {{
+    const resp = await fetch('expert_response.json?t=' + Date.now());
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const ts = new Date(data.generated_at).getTime();
+    if (ts > expertDispatchTime && data.answer) {{
+      clearInterval(expertPollTimer);
+      expertPollTimer = null;
+      localStorage.removeItem('expert_dispatch_time');
+      renderExpertResponse(data);
+      const btn = document.getElementById('ask-btn');
+      btn.textContent = 'Ask Expert';
+      btn.disabled = false;
+      setExpertStatus('✓ Response received', 'var(--green)');
+    }}
+  }} catch(e) {{ /* keep polling */ }}
+}}
+
+function renderExpertResponse(data) {{
+  const area = document.getElementById('expert-response-area');
+  area.style.display = 'block';
+
+  const insights = (data.key_insights || []).map(i => `<li class="win">${{i}}</li>`).join('');
+  const changes  = (data.specific_changes || []).map(c => `<li>${{c}}</li>`).join('');
+  const followups = (data.follow_up_questions || []).map(q =>
+    `<button class="followup-btn" onclick="document.getElementById('expert-question').value=this.dataset.q;document.getElementById('expert-question').scrollIntoView()" data-q="${{q.replace(/"/g,'&quot;')}}">${{q}}</button>`
+  ).join('');
+
+  area.innerHTML = `
+    <div class="expert-response-card">
+      <div class="expert-q-echo">${{data.question || ''}}</div>
+      <div class="expert-answer">${{(data.answer || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}}</div>
+      ${{insights ? `<h4 class="list-heading win-head">Key Insights</h4><ul class="insight-list">${{insights}}</ul>` : ''}}
+      ${{changes  ? `<h4 class="list-heading warn-head">Specific Code Changes</h4><ul class="expert-changes">${{changes}}</ul>` : ''}}
+      ${{followups ? `<h4 class="list-heading">Suggested Follow-ups</h4><div class="followup-wrap">${{followups}}</div>` : ''}}
+      <p class="expert-ts">Generated ${{data.generated_at || ''}}</p>
+    </div>`;
+}}
+
+// On load: restore pending state and show last response
+(async function initExpert() {{
+  try {{
+    const resp = await fetch('expert_response.json?t=' + Date.now());
+    if (resp.ok) {{
+      const data = await resp.json();
+      if (data.answer) renderExpertResponse(data);
+    }}
+  }} catch(e) {{}}
+
+  const savedQ = localStorage.getItem('expert_question');
+  if (savedQ) document.getElementById('expert-question').value = savedQ;
+
+  if (expertDispatchTime && Date.now() - expertDispatchTime < 300000) {{
+    const btn = document.getElementById('ask-btn');
+    btn.textContent = 'Waiting for response…';
+    btn.disabled = true;
+    setExpertStatus('⏳ Polling for response…', 'var(--yellow)');
+    startExpertPolling();
+  }}
+}})();
 </script>
 </body>
 </html>"""
@@ -480,6 +651,17 @@ def main():
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(html, encoding='utf-8')
     print(f"\nReport written to {out_path}")
+
+    analytics_data = {
+        'generated_at':      datetime.datetime.utcnow().isoformat() + 'Z',
+        'channel1_videos':   c1_videos,
+        'channel2_videos':   c2_videos,
+        'channel1_analysis': analysis.get('channels', {}).get('channel1', {}),
+        'channel2_analysis': analysis.get('channels', {}).get('channel2', {}),
+    }
+    data_path = out_path.parent / 'analytics_data.json'
+    data_path.write_text(json.dumps(analytics_data, ensure_ascii=False, indent=2), encoding='utf-8')
+    print(f"Analytics data written to {data_path}")
 
 
 if __name__ == '__main__':

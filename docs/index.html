@@ -2,17 +2,507 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Shorts Analytics</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shorts Analytics Dashboard</title>
 <style>
-  body { background: #0f172a; color: #e2e8f0; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-  .msg { text-align: center; color: #94a3b8; }
-  .msg h1 { font-size: 24px; margin-bottom: 8px; }
+  :root {
+    --bg: #0f172a; --surface: #1e293b; --border: #334155;
+    --text: #e2e8f0; --muted: #94a3b8; --accent: #6366f1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.6; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .muted { color: var(--muted); }
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; gap: 16px; }
+  header h1 { font-size: 18px; font-weight: 700; }
+  .badge { padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; color: #fff; }
+  .updated { margin-left: auto; color: var(--muted); font-size: 12px; }
+  main { max-width: 1400px; margin: 0 auto; padding: 24px; }
+  .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+  .summary-card h2 { font-size: 14px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em; }
+  .summary-text { font-size: 15px; margin-bottom: 16px; }
+  .focus-box { background: #1a2744; border-left: 3px solid var(--accent); padding: 12px 16px; border-radius: 0 8px 8px 0; }
+  .focus-box strong { color: var(--accent); }
+  .channels-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  @media (max-width: 900px) { .channels-grid { grid-template-columns: 1fr; } }
+  .channel-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .channel-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .ch-meta { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+  .avg-badge { background: #1e3a5f; color: #93c5fd; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+  .highlight { padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 8px; }
+  .highlight.best { background: #14532d22; border: 1px solid #166534; }
+  .highlight.worst { background: #7f1d1d22; border: 1px solid #991b1b; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .list-heading { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 8px; }
+  .warn-head { color: #fbbf24; }
+  .win-head  { color: #34d399; }
+  .insight-list { list-style: none; padding: 0; }
+  .insight-list li { padding: 4px 0; font-size: 13px; padding-left: 16px; position: relative; }
+  .insight-list li::before { content: '•'; position: absolute; left: 0; }
+  .insight-list .issue::before { color: #f87171; }
+  .insight-list .win::before  { color: #34d399; }
+  .actions-list { display: flex; flex-direction: column; gap: 8px; }
+  .action-card { background: #0f172a; border: 1px solid var(--border); border-radius: 8px; padding: 12px; display: flex; gap: 12px; }
+  .action-priority { background: var(--accent); color: #fff; font-weight: 700; font-size: 13px; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .action-text { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .action-why, .action-impact { font-size: 12px; color: var(--muted); }
+  .action-impact { color: #86efac; }
+  .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 8px; }
+  .video-card { background: #0f172a; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .thumb-link { position: relative; display: block; }
+  .thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+  .dur-badge { position: absolute; bottom: 4px; right: 4px; background: rgba(0,0,0,.8); color: #fff; font-size: 11px; padding: 1px 5px; border-radius: 4px; }
+  .card-body { padding: 8px; }
+  .card-title { font-size: 12px; line-height: 1.4; margin-bottom: 6px; color: var(--text); }
+  .stats-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .stat { font-size: 11px; color: var(--muted); }
+  .stat.age { margin-left: auto; }
+  .bar-track { background: var(--border); border-radius: 4px; height: 3px; margin-top: 6px; }
+  .bar-fill { background: var(--accent); border-radius: 4px; height: 3px; }
+  .cross-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+  .cross-card h3 { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
+  .cross-card ul { list-style: none; padding: 0; }
+  .cross-card li { padding: 6px 0; padding-left: 20px; position: relative; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .cross-card li::before { content: '⚡'; position: absolute; left: 0; }
+  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 24px; border-top: 1px solid var(--border); margin-top: 24px; }
 </style>
 </head>
 <body>
-<div class="msg">
+<header>
   <h1>Shorts Analytics</h1>
-  <p>Report not yet generated. Trigger the GitHub Actions workflow to build the dashboard.</p>
-</div>
+  <span class="badge" style="background:#ef4444">CRITICAL</span>
+  <span class="updated">Last updated: 2026-06-04 12:42 UTC</span>
+</header>
+<main>
+  <div class="summary-card">
+    <h2>Executive Summary</h2>
+    <p class="summary-text">Both channels are severely underperforming, with 'Friends Clips' struggling to break 1,500 views consistently and 'HIMYM Clips' showing extreme volatility, including catastrophic failures on recent uploads. The core issues lie in inconsistent title strategies, poor hook engineering, and a complete lack of community engagement.</p>
+    <div class="focus-box"><strong>This Week's Focus:</strong> The ONE most important thing to fix this week across both channels is to **standardize and optimize the title strategy in conjunction with aggressive hook engineering**. For HIMYM, this means immediately reverting to a proven, curiosity-driven title format and fixing the hooks on recent failures. For Friends, it means abandoning generic titles and developing truly engaging, curiosity-gap titles with strong, immediate hooks.</div>
+  </div>
+
+  <div class="channels-grid">
+    <div class="channel-card">
+      <h3>Friends Clips</h3>
+      
+    <div class="ch-meta">
+      <span class="avg-badge">Avg 999 views</span>
+      <span style="color:#94a3b8">→ Stable</span>
+    </div>
+    <div class="highlight best">🏆 Best: <a href="https://youtu.be/tYV4iZswWMg" target="_blank">Joey Being Joey 😭 | Friends S2E23</a> — 1,373 views</div><div class="highlight worst">📉 Lowest: <a href="https://youtu.be/_cRA13lVJgo" target="_blank">Phoebe actually bites her massage client and then gets sued </a> — 1 views</div>
+    <div class="two-col">
+      <div>
+        <h4 class="list-heading warn-head">Issues</h4>
+        <ul class="insight-list"><li class="issue">Consistently low view counts, struggling to break 1,500 views.</li><li class="issue">Extremely low engagement (likes-to-view ratio and zero comments on almost all videos).</li><li class="issue">Generic and uninspiring titles ('X Being X 😭') fail to generate curiosity.</li><li class="issue">Recent attempt at descriptive titles resulted in a catastrophic 1-view video, indicating a fundamental misunderstanding of hook/title synergy.</li><li class="issue">Poor hook engineering, failing to grab attention in the critical first 0.5 seconds.</li></ul>
+      </div>
+      <div>
+        <h4 class="list-heading win-head">Wins</h4>
+        <ul class="insight-list"><li class="win">Consistent posting frequency (multiple videos per day).</li><li class="win">Initial, albeit flawed, attempt to move away from generic titles.</li></ul>
+      </div>
+    </div>
+    <h4 class="list-heading">Top Actions</h4>
+    <div class="actions-list">
+        <div class="action-card">
+          <div class="action-priority">#1</div>
+          <div class="action-body">
+            <p class="action-text">Revamp ALL titles to be curiosity-gap driven, teasing the clip's core conflict or punchline without spoiling it. For example, instead of 'Monica got a promotion, took steaks home, and was instantly fired 🥩', try 'Monica's promotion lasted less than an hour 🥩' or 'She got fired for WHAT?! Monica's steak disaster'.</p>
+            <p class="action-why">Why: The current generic titles offer no incentive to click/watch, and the descriptive titles are too explicit, spoiling the joke entirely. Curiosity-gap titles significantly increase initial click-through rate (CTR) and initial watch time.</p>
+            <p class="action-impact">Impact: Increase average views by 200-300% (to 2,000-3,000 views) and improve initial watch time % by 5-10%.</p>
+          </div>
+        </div>
+        <div class="action-card">
+          <div class="action-priority">#2</div>
+          <div class="action-body">
+            <p class="action-text">Implement aggressive hook engineering. For every clip, identify the most visually engaging, surprising, or funny 0.5-1 second and start the video there. Cut all dead air, slow build-ups, or irrelevant intros.</p>
+            <p class="action-why">Why: The 1-view video and consistently low performance indicate viewers are swiping away immediately. A strong, immediate hook is crucial for retaining viewers past the first second, which directly impacts the Shorts algorithm's decision to push content.</p>
+            <p class="action-impact">Impact: Reduce swipe-away rate by 15-20% and increase average watch time % by 10-15%.</p>
+          </div>
+        </div>
+        <div class="action-card">
+          <div class="action-priority">#3</div>
+          <div class="action-body">
+            <p class="action-text">Integrate subtle, engaging calls-to-action (CTAs) in captions. Ask open-ended questions related to the clip (e.g., 'What's your favorite Monica moment?' or 'Who else relates to Phoebe here? 👇').</p>
+            <p class="action-why">Why: Zero comments indicate a complete lack of community interaction. CTAs prompt engagement, which signals to the algorithm that the content is valuable and fosters a loyal audience.</p>
+            <p class="action-impact">Impact: Increase comment rate from 0% to 1-2% per video and improve overall channel engagement metrics.</p>
+          </div>
+        </div></div>
+    <h4 class="list-heading">Recent Videos</h4>
+    <div class="video-grid">
+    <div class="video-card">
+      <a href="https://youtu.be/sbp4cl1zabE" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/sbp4cl1zabE/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">39s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Monica got a promotion, took steaks home, and was instantly fired 🥩">Monica got a promotion, took steaks home, and was instantly fired 🥩</p>
+        <div class="stats-row">
+          <span class="stat">👁 1,157</span>
+          <span class="stat">👍 41</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">0d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:1%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/_cRA13lVJgo" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/_cRA13lVJgo/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">28s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Phoebe actually bites her massage client and then gets sued for it">Phoebe actually bites her massage client and then gets sued for it</p>
+        <div class="stats-row">
+          <span class="stat">👁 1</span>
+          <span class="stat">👍 1</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">0d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/euitZ4Cf1n8" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/euitZ4Cf1n8/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">30s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="The Gang 😭 | Friends S2E5">The Gang 😭 | Friends S2E5</p>
+        <div class="stats-row">
+          <span class="stat">👁 1,174</span>
+          <span class="stat">👍 33</span>
+          <span class="stat">💬 1</span>
+          <span class="stat age">1d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:1%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/QSCSgF9RkS8" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/QSCSgF9RkS8/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">29s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Relationship Drama 😭 | Friends S2E1">Relationship Drama 😭 | Friends S2E1</p>
+        <div class="stats-row">
+          <span class="stat">👁 855</span>
+          <span class="stat">👍 24</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">3d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/89KjwtXt-lI" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/89KjwtXt-lI/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">33s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Joey Being Joey 😭 | Friends S2E1">Joey Being Joey 😭 | Friends S2E1</p>
+        <div class="stats-row">
+          <span class="stat">👁 1,102</span>
+          <span class="stat">👍 28</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">4d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:1%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/WslAP4Xp_hk" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/WslAP4Xp_hk/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">31s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Phoebe Being Phoebe 😭 | Friends S2E1">Phoebe Being Phoebe 😭 | Friends S2E1</p>
+        <div class="stats-row">
+          <span class="stat">👁 714</span>
+          <span class="stat">👍 23</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">4d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/AjgIzFj2CPw" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/AjgIzFj2CPw/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">33s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Joey Being Joey 😭 | Friends S2E24">Joey Being Joey 😭 | Friends S2E24</p>
+        <div class="stats-row">
+          <span class="stat">👁 825</span>
+          <span class="stat">👍 20</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">5d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/YgnWmpNgNbE" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/YgnWmpNgNbE/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">29s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Rachel Being Rachel 😭 | Friends S2E24">Rachel Being Rachel 😭 | Friends S2E24</p>
+        <div class="stats-row">
+          <span class="stat">👁 800</span>
+          <span class="stat">👍 23</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">5d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/6oDsEuANTA8" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/6oDsEuANTA8/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">32s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Rachel Being Rachel 😭 | Friends S2E24">Rachel Being Rachel 😭 | Friends S2E24</p>
+        <div class="stats-row">
+          <span class="stat">👁 1,204</span>
+          <span class="stat">👍 30</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">5d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:1%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/OhqpAYXVBOs" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/OhqpAYXVBOs/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">29s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Chandler Being Chandler 😭 | Friends S2E24">Chandler Being Chandler 😭 | Friends S2E24</p>
+        <div class="stats-row">
+          <span class="stat">👁 1,183</span>
+          <span class="stat">👍 37</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">6d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:1%"></div></div>
+      </div>
+    </div></div>
+    </div>
+    <div class="channel-card">
+      <h3>HIMYM Clips</h3>
+      
+    <div class="ch-meta">
+      <span class="avg-badge">Avg 10,117 views</span>
+      <span style="color:#ef4444">↓ Declining</span>
+    </div>
+    <div class="highlight best">🏆 Best: <a href="https://youtu.be/uOIayd8hBDE" target="_blank">Marshall & Lily 😭 | HIMYM S1E6</a> — 26,803 views</div><div class="highlight worst">📉 Lowest: <a href="https://youtu.be/B9T_EinKAJA" target="_blank">Ted's boss proudly unveils his new skyscraper design, comple</a> — 3 views</div>
+    <div class="two-col">
+      <div>
+        <h4 class="list-heading warn-head">Issues</h4>
+        <ul class="insight-list"><li class="issue">Extreme inconsistency in performance, with high-performing videos (20k+ views) alongside catastrophic failures (3 views) on the same day.</li><li class="issue">Recent shift to descriptive titles has been disastrous, actively killing curiosity and spoiling the joke (e.g., the 3-view video).</li><li class="issue">Low like-to-view ratio on even high-performing videos (e.g., 20k views with only 202 likes is ~1%, which is poor).</li><li class="issue">Very low comment rate, indicating missed opportunities for community building.</li><li class="issue">Poor hook engineering on low-performing videos, leading to immediate swipe-aways.</li></ul>
+      </div>
+      <div>
+        <h4 class="list-heading win-head">Wins</h4>
+        <ul class="insight-list"><li class="win">Proven ability to hit significant view counts (10k-20k+) with the 'Character's X 😭' title format.</li><li class="win">Consistent posting frequency.</li></ul>
+      </div>
+    </div>
+    <h4 class="list-heading">Top Actions</h4>
+    <div class="actions-list">
+        <div class="action-card">
+          <div class="action-priority">#1</div>
+          <div class="action-body">
+            <p class="action-text">Immediately revert and standardize the title strategy. Abandon the explicit, descriptive titles that spoil the joke. Return to a variation of the 'Character's X 😭 | HIMYM SxE' format, or a curiosity-gap title that *teases* the character's common trope or a specific, intriguing event without giving away the punchline.</p>
+            <p class="action-why">Why: The data clearly shows the 'Character's X 😭' format performs significantly better for HIMYM. The new descriptive titles are actively harming performance by eliminating the curiosity gap and spoiling the content, leading to abysmal view counts.</p>
+            <p class="action-impact">Impact: Eliminate 3-view failures, stabilize average views, and bring low-performing videos back into the 5,000-10,000+ range, improving overall channel consistency by 50-70%.</p>
+          </div>
+        </div>
+        <div class="action-card">
+          <div class="action-priority">#2</div>
+          <div class="action-body">
+            <p class="action-text">Conduct a deep dive into the first 0.5-1 second of the 3-view and other low-performing videos. Identify exactly why the hook failed (e.g., slow start, confusing visual, lack of immediate intrigue) and re-edit to start with the most captivating moment.</p>
+            <p class="action-why">Why: The extreme low view counts indicate an immediate swipe-away. The hook is the gatekeeper; if it fails, the video dies. Optimizing this will drastically reduce the swipe-away rate.</p>
+            <p class="action-impact">Impact: Increase initial watch time % by 15-20% on previously low-performing videos, pushing them into the algorithm's favor.</p>
+          </div>
+        </div>
+        <div class="action-card">
+          <div class="action-priority">#3</div>
+          <div class="action-body">
+            <p class="action-text">Actively prompt engagement in captions. Ask specific, open-ended questions related to the clip's content or character (e.g., 'What's your favorite Barney scheme?' or 'Did Lily go too far here? 👇').</p>
+            <p class="action-why">Why: Despite higher views, the comment rate is still very low. Encouraging comments boosts algorithm signals, builds community, and increases the likelihood of re-watches as users scroll through comments.</p>
+            <p class="action-impact">Impact: Increase comment rate from <0.5% to 2-3% per video and improve overall engagement metrics.</p>
+          </div>
+        </div></div>
+    <h4 class="list-heading">Recent Videos</h4>
+    <div class="video-grid">
+    <div class="video-card">
+      <a href="https://youtu.be/B9T_EinKAJA" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/B9T_EinKAJA/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">31s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Ted's boss proudly unveils his new skyscraper design, completely oblivious to its shape 🍆">Ted's boss proudly unveils his new skyscraper design, completely oblivio…</p>
+        <div class="stats-row">
+          <span class="stat">👁 3</span>
+          <span class="stat">👍 1</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">0d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/WuH641mBt6I" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/WuH641mBt6I/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">32s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Lily's plan to teach her boss a lesson almost cost Ted everything.">Lily's plan to teach her boss a lesson almost cost Ted everything.</p>
+        <div class="stats-row">
+          <span class="stat">👁 3,575</span>
+          <span class="stat">👍 26</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">0d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:3%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/UpxRX4KxVjM" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/UpxRX4KxVjM/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">32s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Barney's Schemes 😭 | HIMYM S2E6">Barney's Schemes 😭 | HIMYM S2E6</p>
+        <div class="stats-row">
+          <span class="stat">👁 3,184</span>
+          <span class="stat">👍 20</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">1d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:3%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/tKWiGhRYJRw" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/tKWiGhRYJRw/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">31s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Barney's Schemes 😭 | HIMYM S2E1">Barney's Schemes 😭 | HIMYM S2E1</p>
+        <div class="stats-row">
+          <span class="stat">👁 20,050</span>
+          <span class="stat">👍 202</span>
+          <span class="stat">💬 1</span>
+          <span class="stat age">3d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:20%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/EbnCoe5Y0VI" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/EbnCoe5Y0VI/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">31s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Marshall & Lily 😭 | HIMYM S2E1">Marshall & Lily 😭 | HIMYM S2E1</p>
+        <div class="stats-row">
+          <span class="stat">👁 14,042</span>
+          <span class="stat">👍 157</span>
+          <span class="stat">💬 1</span>
+          <span class="stat age">4d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:14%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/uddXzDVqzN0" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/uddXzDVqzN0/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">35s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Marshall & Lily 😭 | HIMYM S1E8">Marshall & Lily 😭 | HIMYM S1E8</p>
+        <div class="stats-row">
+          <span class="stat">👁 6,051</span>
+          <span class="stat">👍 56</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">4d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:6%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/1UjED-E0QEc" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/1UjED-E0QEc/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">32s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Marshall & Lily 😭 | HIMYM S1E8">Marshall & Lily 😭 | HIMYM S1E8</p>
+        <div class="stats-row">
+          <span class="stat">👁 4,355</span>
+          <span class="stat">👍 52</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">5d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:4%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/7GuPDslkbIo" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/7GuPDslkbIo/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">30s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Barney's Schemes 😭 | HIMYM S1E8">Barney's Schemes 😭 | HIMYM S1E8</p>
+        <div class="stats-row">
+          <span class="stat">👁 17,284</span>
+          <span class="stat">👍 106</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">5d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:17%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/Af7IbNGVr0E" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/Af7IbNGVr0E/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">27s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Barney's Schemes 😭 | HIMYM S1E7">Barney's Schemes 😭 | HIMYM S1E7</p>
+        <div class="stats-row">
+          <span class="stat">👁 8,942</span>
+          <span class="stat">👍 52</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">6d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:8%"></div></div>
+      </div>
+    </div>
+    <div class="video-card">
+      <a href="https://youtu.be/E8oDvI9pLF4" target="_blank" class="thumb-link">
+        <img src="https://i.ytimg.com/vi/E8oDvI9pLF4/hqdefault.jpg" alt="" class="thumb" loading="lazy">
+        <span class="dur-badge">26s</span>
+      </a>
+      <div class="card-body">
+        <p class="card-title" title="Ted's Disasters 😭 | HIMYM S1E7">Ted's Disasters 😭 | HIMYM S1E7</p>
+        <div class="stats-row">
+          <span class="stat">👁 10,611</span>
+          <span class="stat">👍 95</span>
+          <span class="stat">💬 0</span>
+          <span class="stat age">6d ago</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:10%"></div></div>
+      </div>
+    </div></div>
+    </div>
+  </div>
+
+  <div class="cross-card">
+    <h3>Cross-Channel Insights</h3>
+    <ul><li>HIMYM clips demonstrate significantly higher viral potential and average views compared to Friends clips, indicating a stronger audience resonance or better content selection when the strategy aligns.</li><li>The optimal title strategy differs drastically: generic 'Character Being Character' titles underperform for Friends, while descriptive, explicit titles are catastrophic for HIMYM. Both channels need to find their unique curiosity-gap sweet spot.</li><li>Both channels suffer from critical hook engineering failures on their lowest-performing videos, leading to immediate audience abandonment.</li><li>Engagement (likes-to-view ratio and comments) is a universal weakness across both channels, suggesting a missed opportunity for community building and algorithm signals.</li></ul>
+  </div>
+</main>
+<footer>Auto-refreshed every 5 hours via GitHub Actions + cron-job.org</footer>
 </body>
 </html>

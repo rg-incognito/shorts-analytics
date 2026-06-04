@@ -583,7 +583,7 @@ function renderExpertResponse(data) {{
 
   let html = '<div class="expert-response-card">';
   html += '<div class="expert-q-echo">' + esc(data.question || '') + '</div>';
-  html += '<div class="expert-answer">' + esc(data.answer || '').replace(/\n/g,'<br>') + '</div>';
+  html += '<div class="expert-answer">' + esc(data.answer || '').replace(/\\n/g,'<br>') + '</div>';
 
   const insights = data.key_insights || [];
   if (insights.length) {{

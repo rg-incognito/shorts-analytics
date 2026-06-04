@@ -54,10 +54,18 @@ def gh_get_file(repo, path):
     return base64.b64decode(d['content']).decode('utf-8'), d['sha']
 
 
-def gh_get_default_sha(repo, branch='master'):
+def gh_get_default_branch(repo) -> str:
+    r = requests.get(f'{GH}/repos/{repo}', headers=GH_HEADERS, timeout=30)
+    r.raise_for_status()
+    return r.json()['default_branch']
+
+
+def gh_get_default_sha(repo, branch=None):
+    if branch is None:
+        branch = gh_get_default_branch(repo)
     r = requests.get(f'{GH}/repos/{repo}/git/ref/heads/{branch}', headers=GH_HEADERS, timeout=30)
     r.raise_for_status()
-    return r.json()['object']['sha']
+    return r.json()['object']['sha'], branch
 
 
 def gh_create_branch(repo, branch, sha):
@@ -80,7 +88,9 @@ def gh_update_file(repo, path, message, content, sha, branch):
     r.raise_for_status()
 
 
-def gh_create_pr(repo, title, body, head, base='master'):
+def gh_create_pr(repo, title, body, head, base=None):
+    if base is None:
+        base = gh_get_default_branch(repo)
     r = requests.post(f'{GH}/repos/{repo}/pulls', headers=GH_HEADERS,
                       json={'title': title, 'body': body, 'head': head, 'base': base},
                       timeout=30)
@@ -247,7 +257,7 @@ CRITICAL: `old_string` must be the EXACT text from the file above, character for
 
     # ── 4. Create branch, push files, open PR ────────────────────────────────
     print('\n[4/4] Creating branch and opening PR...')
-    base_sha    = gh_get_default_sha(TARGET)
+    base_sha, default_branch = gh_get_default_sha(TARGET)
     branch_name = fix['branch_name']
     gh_create_branch(TARGET, branch_name, base_sha)
 
@@ -255,7 +265,7 @@ CRITICAL: `old_string` must be the EXACT text from the file above, character for
         sha = file_data[path]['sha']
         gh_update_file(TARGET, path, f'{fix["pr_title"]} [{path}]', new_content, sha, branch_name)
 
-    pr_url = gh_create_pr(TARGET, fix['pr_title'], fix['pr_body'], branch_name)
+    pr_url = gh_create_pr(TARGET, fix['pr_title'], fix['pr_body'], branch_name, base=default_branch)
     print(f'\nDone! PR: {pr_url}')
 
 

@@ -7,10 +7,10 @@ on:
         description: 'Channel: friends or himym'
         required: true
       action_item:
-        description: 'Action item text to implement'
+        description: 'Action item to implement'
         required: true
       why:
-        description: 'Why this matters (from AI analysis)'
+        description: 'Why this matters'
         required: false
         default: ''
 
@@ -19,20 +19,90 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
+      - name: Checkout target repo
+        uses: actions/checkout@v4
         with:
-          python-version: '3.11'
+          repository: ${{ github.event.inputs.channel == 'friends' && 'rg-incognito/shortgen' || 'rg-incognito/shortgen-himym' }}
+          token: ${{ secrets.FIX_PAT }}
 
-      - name: Install dependencies
-        run: pip install requests
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-      - name: Run AI fixer
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Setup Claude credentials
         env:
-          CHANNEL:           ${{ github.event.inputs.channel }}
-          ACTION_ITEM:       ${{ github.event.inputs.action_item }}
-          WHY:               ${{ github.event.inputs.why }}
-          GEMINI_API_KEY:    ${{ secrets.GEMINI_API_KEY }}
-          FIX_PAT:           ${{ secrets.FIX_PAT }}
-        run: python src/fix_action.py
+          CLAUDE_CREDENTIALS: ${{ secrets.CLAUDE_CREDENTIALS_JSON }}
+        run: |
+          mkdir -p ~/.claude
+          printf '%s' "$CLAUDE_CREDENTIALS" > ~/.claude/.credentials.json
+
+      - name: Create fix branch
+        id: branch
+        env:
+          ACTION: ${{ github.event.inputs.action_item }}
+        run: |
+          SLUG=$(echo "$ACTION" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/-\+/-/g' | cut -c1-45 | sed 's/-$//')
+          BRANCH="fix/${SLUG}"
+          git checkout -b "$BRANCH"
+          echo "name=$BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Run Claude Code fix
+        env:
+          SERIES: ${{ github.event.inputs.channel == 'friends' && 'Friends' || 'How I Met Your Mother' }}
+          ACTION: ${{ github.event.inputs.action_item }}
+          WHY: ${{ github.event.inputs.why }}
+        run: |
+          claude --dangerously-skip-permissions -p "
+          You are fixing a YouTube Shorts automation pipeline for the ${SERIES} channel on GitHub.
+
+          ACTION ITEM: ${ACTION}
+
+          WHY IT MATTERS: ${WHY}
+
+          The repo contains these source files in src/:
+          - analyzer.py  — Gemini prompts for clip selection and YouTube metadata
+          - main.py      — orchestrator (run count, upload logic)
+          - captioner.py — ASS subtitle generation, font size, caption style
+          - clipper.py   — ffmpeg clip cutting and merging
+          - reframer.py  — face tracking, 9:16 reframe
+
+          Instructions:
+          1. Read the relevant files from src/ to understand the current code
+          2. Make ONLY the minimal surgical change to implement the action item
+          3. Do not touch unrelated code
+          4. Read the edited file back to verify it has valid Python
+
+          Make the edits now.
+          "
+
+      - name: Commit and open PR
+        env:
+          GH_TOKEN: ${{ secrets.FIX_PAT }}
+          ACTION: ${{ github.event.inputs.action_item }}
+          WHY: ${{ github.event.inputs.why }}
+          REPO: ${{ github.event.inputs.channel == 'friends' && 'rg-incognito/shortgen' || 'rg-incognito/shortgen-himym' }}
+          BRANCH: ${{ steps.branch.outputs.name }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Claude made no file changes — nothing to commit"
+            exit 1
+          fi
+          git commit -m "fix: ${ACTION:0:72}"
+          git push origin "$BRANCH"
+          gh pr create \
+            --repo "$REPO" \
+            --title "fix: ${ACTION:0:72}" \
+            --body "## What changed
+
+Implemented by Claude Code (claude-sonnet-4-6).
+
+## Why
+${WHY}" \
+            --head "$BRANCH"

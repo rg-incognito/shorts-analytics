@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-06-04T18:09:50.740331Z",
+  "generated_at": "2026-06-04T19:50:37.597354Z",
   "channel1_videos": [
     {
       "video_id": "sBsq070KOh0",
       "title": "Joey & Chandler's \"baby\" adventure took an unexpected turn 👶",
-      "published_at": "2026-06-04T18:02:58Z",
+      "published_at": "2026-06-04T18:13:10Z",
       "days_old": 0,
       "duration_sec": 29,
-      "views": 0,
-      "likes": 0,
+      "views": 612,
+      "likes": 22,
       "comments": 0,
-      "thumbnail": "https://i9.ytimg.com/vi/sBsq070KOh0/hqdefault.jpg?sqp=CMz8htEG&rs=AOn4CLAkAH7b6CzUbRORMT1CTaqX29vHLg",
+      "thumbnail": "https://i.ytimg.com/vi/sBsq070KOh0/hqdefault.jpg",
       "url": "https://youtu.be/sBsq070KOh0"
     },
     {
@@ -19,7 +19,7 @@
       "published_at": "2026-06-03T19:56:18Z",
       "days_old": 0,
       "duration_sec": 39,
-      "views": 1162,
+      "views": 1168,
       "likes": 42,
       "comments": 0,
       "thumbnail": "https://i.ytimg.com/vi/sbp4cl1zabE/hqdefault.jpg",
@@ -53,7 +53,7 @@
       "video_id": "QSCSgF9RkS8",
       "title": "Relationship Drama 😭 | Friends S2E1",
       "published_at": "2026-05-31T19:12:32Z",
-      "days_old": 3,
+      "days_old": 4,
       "duration_sec": 29,
       "views": 855,
       "likes": 24,
@@ -77,7 +77,7 @@
       "video_id": "WslAP4Xp_hk",
       "title": "Phoebe Being Phoebe 😭 | Friends S2E1",
       "published_at": "2026-05-30T19:07:16Z",
-      "days_old": 4,
+      "days_old": 5,
       "duration_sec": 31,
       "views": 714,
       "likes": 23,
@@ -221,7 +221,7 @@
       "video_id": "L1wLv1kuz3s",
       "title": "Ross Being Ross 😭 | Friends S2E9",
       "published_at": "2026-05-25T19:30:14Z",
-      "days_old": 9,
+      "days_old": 10,
       "duration_sec": 33,
       "views": 1113,
       "likes": 22,
@@ -246,13 +246,13 @@
     {
       "video_id": "7sD3dMFYbRg",
       "title": "Barney's Schemes 😭 | HIMYM S2E7",
-      "published_at": "2026-06-04T18:04:43Z",
+      "published_at": "2026-06-04T18:14:48Z",
       "days_old": 0,
       "duration_sec": 32,
-      "views": 0,
-      "likes": 0,
+      "views": 4832,
+      "likes": 110,
       "comments": 0,
-      "thumbnail": "https://i9.ytimg.com/vi/7sD3dMFYbRg/hqdefault.jpg?sqp=CMz8htEG&rs=AOn4CLDXEddsqUQw_LUQhrTMohceNzAUKg",
+      "thumbnail": "https://i.ytimg.com/vi/7sD3dMFYbRg/hqdefault.jpg",
       "url": "https://youtu.be/7sD3dMFYbRg"
     },
     {
@@ -273,8 +273,8 @@
       "published_at": "2026-06-03T17:58:55Z",
       "days_old": 1,
       "duration_sec": 32,
-      "views": 3864,
-      "likes": 27,
+      "views": 3966,
+      "likes": 30,
       "comments": 1,
       "thumbnail": "https://i.ytimg.com/vi/WuH641mBt6I/hqdefault.jpg",
       "url": "https://youtu.be/WuH641mBt6I"
@@ -285,8 +285,8 @@
       "published_at": "2026-06-02T21:27:18Z",
       "days_old": 1,
       "duration_sec": 32,
-      "views": 3194,
-      "likes": 22,
+      "views": 3197,
+      "likes": 24,
       "comments": 0,
       "thumbnail": "https://i.ytimg.com/vi/UpxRX4KxVjM/hqdefault.jpg",
       "url": "https://youtu.be/UpxRX4KxVjM"
@@ -295,7 +295,7 @@
       "video_id": "tKWiGhRYJRw",
       "title": "Barney's Schemes 😭 | HIMYM S2E1",
       "published_at": "2026-05-31T19:09:24Z",
-      "days_old": 3,
+      "days_old": 4,
       "duration_sec": 31,
       "views": 20052,
       "likes": 202,
@@ -319,7 +319,7 @@
       "video_id": "uddXzDVqzN0",
       "title": "Marshall & Lily 😭 | HIMYM S1E8",
       "published_at": "2026-05-30T19:05:54Z",
-      "days_old": 4,
+      "days_old": 5,
       "duration_sec": 35,
       "views": 6051,
       "likes": 56,
@@ -333,7 +333,7 @@
       "published_at": "2026-05-29T21:50:59Z",
       "days_old": 5,
       "duration_sec": 32,
-      "views": 4355,
+      "views": 4356,
       "likes": 52,
       "comments": 0,
       "thumbnail": "https://i.ytimg.com/vi/1UjED-E0QEc/hqdefault.jpg",
@@ -405,7 +405,7 @@
       "published_at": "2026-05-26T21:38:32Z",
       "days_old": 8,
       "duration_sec": 29,
-      "views": 26803,
+      "views": 26802,
       "likes": 397,
       "comments": 1,
       "thumbnail": "https://i.ytimg.com/vi/uOIayd8hBDE/hqdefault.jpg",
@@ -439,7 +439,7 @@
       "video_id": "BUtfAs_qZSU",
       "title": "Barney's Schemes 😭 | HIMYM S1E5",
       "published_at": "2026-05-25T19:27:36Z",
-      "days_old": 9,
+      "days_old": 10,
       "duration_sec": 26,
       "views": 8060,
       "likes": 48,
@@ -451,7 +451,7 @@
       "video_id": "k2AQmp5Slso",
       "title": "Barney's Schemes 😭 | HIMYM S1E5",
       "published_at": "2026-05-25T18:15:09Z",
-      "days_old": 9,
+      "days_old": 10,
       "duration_sec": 26,
       "views": 13180,
       "likes": 64,
@@ -486,89 +486,92 @@
   ],
   "channel1_analysis": {
     "name": "Friends Clips",
-    "avg_views": 855,
+    "avg_views": 896,
     "best_video": {
       "title": "Joey Being Joey 😭 | Friends S2E23",
       "views": 1375,
       "url": "https://youtu.be/tYV4iZswWMg"
     },
     "worst_video": {
-      "title": "Joey & Chandler's \"baby\" adventure took an unexpected turn 👶",
-      "views": 0,
-      "url": "https://youtu.be/sBsq070KOh0"
+      "title": "Phoebe actually bites her massage client and then gets sued for it",
+      "views": 1,
+      "url": "https://youtu.be/_cRA13lVJgo"
     },
-    "trend": "declining",
+    "trend": "stable",
     "issues": [
-      "Catastrophic Hook Failure: Multiple videos (0-1 views) indicate a complete breakdown in the initial 0.5-second hook or auto-generated thumbnail, causing the algorithm to immediately stop pushing content.",
-      "Generic & Unengaging Titles: Over-reliance on 'Character Being Character 😭' provides no curiosity gap or specific reason to watch, leading to low click-through rates.",
-      "Critically Low Engagement: Almost no comments across all videos, and low like-to-view ratio (avg. 2-3%), signaling poor community interaction to the algorithm.",
-      "Inconsistent Content Quality/Selection: Wide variance in views suggests some clips are not resonating at all, while others barely break 1k views."
+      "Extreme inconsistency in performance, including a critical 1-view failure.",
+      "Over-reliance on generic 'Character Being Character 😭' titles that lack curiosity and impact.",
+      "Zero comments across almost all videos, indicating a severe lack of community engagement.",
+      "Hooks (first 0.5-2 seconds) are likely weak or spoil the content for underperforming videos."
     ],
     "wins": [
-      "Consistent Posting Schedule: The channel maintains a regular upload frequency, which is a foundational positive."
+      "Consistent daily posting frequency.",
+      "Some narrative-driven titles show slightly better performance, indicating a potential growth area."
     ],
     "top_actions": [
       {
         "priority": 1,
-        "action": "Overhaul Hook Engineering: Every clip MUST have an immediate, visually dynamic, and context-setting moment within the first 1-3 seconds. Front-load the most compelling part of the clip or add a text overlay that teases the conflict/punchline.",
-        "why": "The 0-1 view videos are a death sentence. This indicates the initial algorithmic test audience is swiping away instantly. A strong, immediate hook is critical to capture attention and signal watchability to YouTube's algorithm.",
-        "expected_impact": "Eliminate 0-1 view videos entirely, increase average watch time by 5-10%, and boost initial algorithmic reach by 2-3x, leading to a 100-200% increase in average views per Short."
+        "action": "Revamp title strategy: Eliminate generic 'Character Being Character 😭' titles. Instead, craft narrative-driven titles that create a strong curiosity gap without spoiling the punchline. Test specific intriguing questions or cliffhangers. Remove the overused '😭' emoji.",
+        "why": "The 1-view and 88-view videos demonstrate that poor/spoiler titles kill performance. The slightly better performing narrative titles ('Monica got a promotion...') suggest this approach resonates more with the Friends audience. The '😭' emoji has lost its impact due to overuse.",
+        "expected_impact": "Increase average views by 50-100% (from ~900 to 1350-1800) by improving click-through rate (CTR) and initial watch time. Eliminate outlier failures (1 view, 88 views) entirely."
       },
       {
         "priority": 2,
-        "action": "Implement Curiosity-Gap Title Strategy: Replace generic 'Character Being Character 😭' titles with narrative-driven, curiosity-inducing phrases that highlight the specific conflict, humor, or unexpected twist of the clip.",
-        "why": "Current titles offer no incentive to click. A well-crafted curiosity gap title compels viewers to watch to find out what happens, significantly improving click-through rates (CTR).",
-        "expected_impact": "Increase CTR by 5-10%, leading to a 50-100% increase in views for videos that currently get ~1k views, pushing them into the 2k-3k range."
+        "action": "Engineer stronger hooks: For every short, ensure the first 0.5-2 seconds are visually dynamic, immediately engaging, and set up the clip's premise without giving away the core joke or moment. Consider adding a quick text overlay hook.",
+        "why": "The first 0.5 seconds determines 80% of retention. Low views suggest viewers are swiping away immediately. Even a good title can't save a weak visual hook.",
+        "expected_impact": "Increase average watch time percentage by 5-10%, leading to a 20-30% increase in views for otherwise decent clips, and reducing swipe-away rates."
       },
       {
         "priority": 3,
-        "action": "Integrate Specific Call-to-Actions (CTAs) in Captions: End every caption with a direct, open-ended question related to the clip's content to solicit comments.",
-        "why": "Comment engagement is virtually non-existent. Comments are a powerful signal to the YouTube algorithm that content is engaging and fosters community, leading to broader distribution.",
-        "expected_impact": "Increase comment count by 5-10x per video, boosting algorithmic favorability and potentially increasing views by 20-30% as the algorithm sees more interaction."
+        "action": "Implement clear calls-to-action (CTAs) for comments: Add a subtle, engaging question related to the clip in the caption (e.g., 'What's your favorite Joey moment?') or a quick text overlay at the end of the video.",
+        "why": "Zero comments indicate a complete lack of community engagement, which the YouTube Shorts algorithm heavily values for distribution. It also means no direct audience feedback.",
+        "expected_impact": "Increase comments from 0 to 5-10 per video, significantly boosting algorithm favorability and providing valuable audience insights for future content."
       }
     ]
   },
   "channel2_analysis": {
     "name": "HIMYM Clips",
-    "avg_views": 11244,
+    "avg_views": 11573,
     "best_video": {
       "title": "Marshall & Lily 😭 | HIMYM S1E6",
-      "views": 26803,
+      "views": 26802,
       "url": "https://youtu.be/uOIayd8hBDE"
     },
     "worst_video": {
-      "title": "Barney's Schemes 😭 | HIMYM S2E7",
-      "views": 0,
-      "url": "https://youtu.be/7sD3dMFYbRg"
+      "title": "Ted's boss proudly unveils his new skyscraper design, completely oblivious to its shape 🍆",
+      "views": 3,
+      "url": "https://youtu.be/B9T_EinKAJA"
     },
     "trend": "stable",
     "issues": [
-      "Inconsistent Hook Performance: Despite overall strong performance, recent videos with 0-3 views indicate a recurring failure in the initial hook, mirroring the Friends channel's critical issue.",
-      "Low Comment Engagement: Similar to Friends, comment counts are extremely low even on videos with tens of thousands of views, a significant missed opportunity for algorithmic boosting and community building.",
-      "Over-reliance on Generic Titles: Many high-performing videos still use generic 'Character's Schemes 😭' titles. While some succeed, this limits potential reach and clickability for new audiences."
+      "Critical 3-view failure on a recent upload, indicating a severe misstep in content or title selection.",
+      "Inconsistent performance, with a wide range from 3 views to 26k+ views.",
+      "Almost zero comments despite high view counts, missing out on crucial engagement signals.",
+      "Over-reliance on 'Character's [Topic] 😭' titles, which, while effective, could be optimized for even higher performance and less emoji fatigue."
     ],
     "wins": [
-      "Proven Viral Potential: The channel consistently produces videos reaching 10k-20k+ views, demonstrating strong content selection and audience resonance.",
-      "Consistent Posting Schedule: Maintains a regular upload frequency, which is crucial for algorithmic consistency."
+      "Strong overall view count with multiple videos achieving viral status (10k-20k+ views).",
+      "The 'Barney's Schemes' and 'Marshall & Lily' character-brand titles resonate well with the audience.",
+      "Consistent daily posting frequency."
     ],
     "top_actions": [
       {
         "priority": 1,
-        "action": "Immediate Hook Audit & Refinement: Analyze the first 3 seconds of the 0-3 view videos against your most successful clips. Identify the precise differences in visual appeal, immediate context, and pacing that cause the failures.",
-        "why": "These 'dead' videos are a critical anomaly for a channel with proven success. Pinpointing the exact hook flaw (e.g., slow start, confusing visual, lack of immediate payoff) is essential to prevent future wasted content and maintain consistent high performance.",
-        "expected_impact": "Eliminate future 0-3 view videos, ensuring a higher floor for all uploads and preventing algorithmic penalties from failed content, leading to a 5-10% increase in overall channel views."
+        "action": "Eliminate critical failures: Immediately implement a strict pre-publish review process to prevent any future videos like the 3-view disaster. This includes scrutinizing clip selection, ensuring titles do not spoil the entire joke, and avoiding potentially problematic emojis or explicit language in titles.",
+        "why": "A 3-view video is an algorithmic red flag that can negatively impact the channel's overall reach and trust score. The specific title was a complete spoiler and potentially inappropriate, leading to immediate swipes.",
+        "expected_impact": "Prevent future critical failures, maintaining a high floor for views (e.g., minimum 3,000-5,000 views per short), and protecting the channel's long-term health and algorithmic standing."
       },
       {
         "priority": 2,
-        "action": "Diversify & Optimize Title Formats: Experiment with more descriptive, emotionally resonant, or curiosity-driven titles that go beyond 'Character's Schemes 😭'. Focus on the specific plot point, punchline, or emotional arc of the clip.",
-        "why": "While current titles work for some, more engaging and specific titles can attract a broader audience and improve CTR for existing viewers, especially those not already familiar with the specific episode.",
-        "expected_impact": "Increase CTR by 2-5%, leading to a 10-20% increase in views for videos currently performing in the 5k-15k range, pushing more into the 20k+ bracket."
+        "action": "Optimize existing successful title formats: While 'Barney's Schemes' works, test variations that add a *hint* of curiosity or a specific, intriguing detail without spoiling the punchline. E.g., 'Barney's CRAZIEST Scheme to...' or 'Barney's Scheme that went WRONG'. Reduce reliance on the '😭' emoji.",
+        "why": "The current titles are good but could be great. Adding a stronger curiosity gap could push more videos into the 20k+ range and beyond, maximizing viral potential. The '😭' emoji is becoming generic.",
+        "expected_impact": "Increase average views by 15-25% (from ~11.5k to 13k-14k) for these types of videos, pushing more into the viral tier and improving CTR."
       },
       {
         "priority": 3,
-        "action": "Implement Aggressive Comment CTAs: Consistently include a clear, engaging, and open-ended question in every video's caption to prompt viewer comments.",
-        "why": "Despite high views, comment engagement is critically low. Comments are a strong indicator of community and content value to the YouTube algorithm, significantly boosting distribution.",
-        "expected_impact": "Increase comment count by 5-10x per video, boosting algorithmic favorability and potentially increasing views by 10-20% for videos that already perform well."
+        "action": "Implement clear calls-to-action (CTAs) for comments: Similar to Channel 1, add engaging questions in the caption or a quick text overlay at the end of the video to prompt viewer interaction.",
+        "why": "Despite high views, comments are almost non-existent. The algorithm rewards engagement (likes, comments, shares, re-watches). This is a major missed opportunity for growth.",
+        "expected_impact": "Increase comments from 0-1 to 10-20 per video, significantly boosting algorithm favorability, fostering a stronger community, and providing valuable audience feedback."
       }
     ]
   }

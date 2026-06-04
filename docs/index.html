@@ -112,27 +112,6 @@
 
   .done-banner { background: #14532d22; border: 1px solid var(--green); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--green); margin-top: 4px; }
 
-  /* ── Expert Agent tab ── */
-  .expert-wrap { max-width: 860px; }
-  .expert-input-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
-  .expert-input-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-  .expert-desc { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
-  .expert-textarea { width: 100%; background: #0f172a; border: 1px solid var(--border); color: var(--text); font-size: 14px; padding: 12px; border-radius: 8px; min-height: 90px; resize: vertical; font-family: inherit; }
-  .expert-textarea:focus { outline: none; border-color: var(--accent); }
-  .ask-btn { background: var(--accent); color: #fff; border: none; padding: 10px 22px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; margin-top: 12px; }
-  .ask-btn:hover { background: #4f46e5; }
-  .ask-btn:disabled { opacity: .5; cursor: not-allowed; }
-  .expert-status { font-size: 13px; color: var(--muted); margin-top: 10px; }
-  .expert-response-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
-  .expert-q-echo { font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 16px; border-left: 3px solid var(--border); padding-left: 12px; }
-  .expert-answer { font-size: 14px; line-height: 1.85; margin-bottom: 20px; white-space: pre-wrap; }
-  .expert-changes { list-style: none; padding: 0; }
-  .expert-changes li { padding: 8px 12px; background: #0f172a; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 6px; font-size: 12px; font-family: monospace; line-height: 1.5; }
-  .followup-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-  .followup-btn { background: #1e293b; border: 1px solid var(--border); color: var(--text); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 12px; }
-  .followup-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .expert-ts { font-size: 11px; color: var(--muted); margin-top: 16px; }
-
   footer { text-align: center; color: var(--muted); font-size: 12px; padding: 24px; border-top: 1px solid var(--border); margin-top: 24px; }
 </style>
 </head>
@@ -141,13 +120,12 @@
 <header>
   <h1>Shorts Analytics</h1>
   <span class="badge" style="background:#f59e0b">WARNING</span>
-  <span class="updated">Last updated: 2026-06-04 18:09 UTC</span>
+  <span class="updated">Last updated: 2026-06-04 19:50 UTC</span>
 </header>
 
 <div class="tabs">
   <button class="tab-btn active" onclick="switchTab('dashboard', this)">Dashboard</button>
   <button class="tab-btn" onclick="switchTab('actions', this)">Action Items <span class="tab-count">6</span></button>
-  <button class="tab-btn" onclick="switchTab('expert', this)">Expert Agent</button>
 </div>
 
 <!-- ═══════════════ DASHBOARD TAB ═══════════════ -->
@@ -155,8 +133,8 @@
 <main>
   <div class="summary-card">
     <h2>Executive Summary</h2>
-    <p class="summary-text">The HIMYM channel demonstrates strong potential with several viral hits, significantly outperforming the Friends channel in views. However, both channels suffer from critical inconsistencies, evidenced by multiple videos receiving 0-3 views, indicating a fundamental failure in initial algorithmic pickup and hook engineering. Comment engagement is critically low across both channels, hindering community growth and algorithmic favorability.</p>
-    <div class="focus-box"><strong>This Week's Focus:</strong> The ONE most important thing to fix this week across both channels is the '0-3 view' phenomenon. This means a complete re-evaluation and overhaul of the first 0.5-3 seconds of every Short to ensure an immediate, compelling hook that prevents instant swipe-aways and allows the algorithm to test the content effectively.</div>
+    <p class="summary-text">Channel 2 (HIMYM) is performing strongly with several viral hits, but both channels suffer from inconsistent performance, including critical failures (1-3 views) on recent uploads. A pervasive lack of community engagement via comments is a universal issue, hindering further growth and algorithmic favorability.</p>
+    <div class="focus-box"><strong>This Week's Focus:</strong> The ONE most important thing to fix this week across both channels is to implement a mandatory, rigorous pre-publish review process for *every* short's hook (first 0.5 seconds) and title. This process must ensure the hook is instantly engaging, the title creates a strong curiosity gap without spoiling the content, and explicitly prevents any content or title that could lead to critical failures like the 1-view and 3-view videos observed. This will prevent algorithmic penalties and wasted effort.</div>
   </div>
 
   <div class="channels-grid">
@@ -164,32 +142,32 @@
       <h3>Friends Clips</h3>
       
     <div class="ch-meta">
-      <span class="avg-badge">Avg 855 views</span>
-      <span style="color:#ef4444">↓ Declining</span>
+      <span class="avg-badge">Avg 896 views</span>
+      <span style="color:#94a3b8">→ Stable</span>
     </div>
-    <div class="highlight best">🏆 Best: <a href="https://youtu.be/tYV4iZswWMg" target="_blank">Joey Being Joey 😭 | Friends S2E23</a> — 1,375 views</div><div class="highlight worst">📉 Lowest: <a href="https://youtu.be/sBsq070KOh0" target="_blank">Joey & Chandler's "baby" adventure took an unexpected turn 👶</a> — 0 views</div>
+    <div class="highlight best">🏆 Best: <a href="https://youtu.be/tYV4iZswWMg" target="_blank">Joey Being Joey 😭 | Friends S2E23</a> — 1,375 views</div><div class="highlight worst">📉 Lowest: <a href="https://youtu.be/_cRA13lVJgo" target="_blank">Phoebe actually bites her massage client and then gets sued </a> — 1 views</div>
     <div class="two-col">
       <div>
         <h4 class="list-heading warn-head">Issues</h4>
-        <ul class="insight-list"><li class="issue">Catastrophic Hook Failure: Multiple videos (0-1 views) indicate a complete breakdown in the initial 0.5-second hook or auto-generated thumbnail, causing the algorithm to immediately stop pushing content.</li><li class="issue">Generic & Unengaging Titles: Over-reliance on 'Character Being Character 😭' provides no curiosity gap or specific reason to watch, leading to low click-through rates.</li><li class="issue">Critically Low Engagement: Almost no comments across all videos, and low like-to-view ratio (avg. 2-3%), signaling poor community interaction to the algorithm.</li><li class="issue">Inconsistent Content Quality/Selection: Wide variance in views suggests some clips are not resonating at all, while others barely break 1k views.</li></ul>
+        <ul class="insight-list"><li class="issue">Extreme inconsistency in performance, including a critical 1-view failure.</li><li class="issue">Over-reliance on generic 'Character Being Character 😭' titles that lack curiosity and impact.</li><li class="issue">Zero comments across almost all videos, indicating a severe lack of community engagement.</li><li class="issue">Hooks (first 0.5-2 seconds) are likely weak or spoil the content for underperforming videos.</li></ul>
       </div>
       <div>
         <h4 class="list-heading win-head">Wins</h4>
-        <ul class="insight-list"><li class="win">Consistent Posting Schedule: The channel maintains a regular upload frequency, which is a foundational positive.</li></ul>
+        <ul class="insight-list"><li class="win">Consistent daily posting frequency.</li><li class="win">Some narrative-driven titles show slightly better performance, indicating a potential growth area.</li></ul>
       </div>
     </div>
     <h4 class="list-heading">Recent Videos</h4>
     <div class="video-grid">
     <div class="video-card">
       <a href="https://youtu.be/sBsq070KOh0" target="_blank" class="thumb-link">
-        <img src="https://i9.ytimg.com/vi/sBsq070KOh0/hqdefault.jpg?sqp=CMz8htEG&rs=AOn4CLAkAH7b6CzUbRORMT1CTaqX29vHLg" alt="" class="thumb" loading="lazy">
+        <img src="https://i.ytimg.com/vi/sBsq070KOh0/hqdefault.jpg" alt="" class="thumb" loading="lazy">
         <span class="dur-badge">29s</span>
       </a>
       <div class="card-body">
         <p class="card-title" title="Joey & Chandler's "baby" adventure took an unexpected turn 👶">Joey & Chandler's "baby" adventure took an unexpected turn 👶</p>
         <div class="stats-row">
-          <span class="stat">👁 0</span>
-          <span class="stat">👍 0</span>
+          <span class="stat">👁 612</span>
+          <span class="stat">👍 22</span>
           <span class="stat">💬 0</span>
           <span class="stat age">0d ago</span>
         </div>
@@ -204,7 +182,7 @@
       <div class="card-body">
         <p class="card-title" title="Monica got a promotion, took steaks home, and was instantly fired 🥩">Monica got a promotion, took steaks home, and was instantly fired 🥩</p>
         <div class="stats-row">
-          <span class="stat">👁 1,162</span>
+          <span class="stat">👁 1,168</span>
           <span class="stat">👍 42</span>
           <span class="stat">💬 0</span>
           <span class="stat age">0d ago</span>
@@ -255,7 +233,7 @@
           <span class="stat">👁 855</span>
           <span class="stat">👍 24</span>
           <span class="stat">💬 0</span>
-          <span class="stat age">3d ago</span>
+          <span class="stat age">4d ago</span>
         </div>
         <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
       </div>
@@ -287,7 +265,7 @@
           <span class="stat">👁 714</span>
           <span class="stat">👍 23</span>
           <span class="stat">💬 0</span>
-          <span class="stat age">4d ago</span>
+          <span class="stat age">5d ago</span>
         </div>
         <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
       </div>
@@ -345,36 +323,36 @@
       <h3>HIMYM Clips</h3>
       
     <div class="ch-meta">
-      <span class="avg-badge">Avg 11,244 views</span>
+      <span class="avg-badge">Avg 11,573 views</span>
       <span style="color:#94a3b8">→ Stable</span>
     </div>
-    <div class="highlight best">🏆 Best: <a href="https://youtu.be/uOIayd8hBDE" target="_blank">Marshall & Lily 😭 | HIMYM S1E6</a> — 26,803 views</div><div class="highlight worst">📉 Lowest: <a href="https://youtu.be/7sD3dMFYbRg" target="_blank">Barney's Schemes 😭 | HIMYM S2E7</a> — 0 views</div>
+    <div class="highlight best">🏆 Best: <a href="https://youtu.be/uOIayd8hBDE" target="_blank">Marshall & Lily 😭 | HIMYM S1E6</a> — 26,802 views</div><div class="highlight worst">📉 Lowest: <a href="https://youtu.be/B9T_EinKAJA" target="_blank">Ted's boss proudly unveils his new skyscraper design, comple</a> — 3 views</div>
     <div class="two-col">
       <div>
         <h4 class="list-heading warn-head">Issues</h4>
-        <ul class="insight-list"><li class="issue">Inconsistent Hook Performance: Despite overall strong performance, recent videos with 0-3 views indicate a recurring failure in the initial hook, mirroring the Friends channel's critical issue.</li><li class="issue">Low Comment Engagement: Similar to Friends, comment counts are extremely low even on videos with tens of thousands of views, a significant missed opportunity for algorithmic boosting and community building.</li><li class="issue">Over-reliance on Generic Titles: Many high-performing videos still use generic 'Character's Schemes 😭' titles. While some succeed, this limits potential reach and clickability for new audiences.</li></ul>
+        <ul class="insight-list"><li class="issue">Critical 3-view failure on a recent upload, indicating a severe misstep in content or title selection.</li><li class="issue">Inconsistent performance, with a wide range from 3 views to 26k+ views.</li><li class="issue">Almost zero comments despite high view counts, missing out on crucial engagement signals.</li><li class="issue">Over-reliance on 'Character's [Topic] 😭' titles, which, while effective, could be optimized for even higher performance and less emoji fatigue.</li></ul>
       </div>
       <div>
         <h4 class="list-heading win-head">Wins</h4>
-        <ul class="insight-list"><li class="win">Proven Viral Potential: The channel consistently produces videos reaching 10k-20k+ views, demonstrating strong content selection and audience resonance.</li><li class="win">Consistent Posting Schedule: Maintains a regular upload frequency, which is crucial for algorithmic consistency.</li></ul>
+        <ul class="insight-list"><li class="win">Strong overall view count with multiple videos achieving viral status (10k-20k+ views).</li><li class="win">The 'Barney's Schemes' and 'Marshall & Lily' character-brand titles resonate well with the audience.</li><li class="win">Consistent daily posting frequency.</li></ul>
       </div>
     </div>
     <h4 class="list-heading">Recent Videos</h4>
     <div class="video-grid">
     <div class="video-card">
       <a href="https://youtu.be/7sD3dMFYbRg" target="_blank" class="thumb-link">
-        <img src="https://i9.ytimg.com/vi/7sD3dMFYbRg/hqdefault.jpg?sqp=CMz8htEG&rs=AOn4CLDXEddsqUQw_LUQhrTMohceNzAUKg" alt="" class="thumb" loading="lazy">
+        <img src="https://i.ytimg.com/vi/7sD3dMFYbRg/hqdefault.jpg" alt="" class="thumb" loading="lazy">
         <span class="dur-badge">32s</span>
       </a>
       <div class="card-body">
         <p class="card-title" title="Barney's Schemes 😭 | HIMYM S2E7">Barney's Schemes 😭 | HIMYM S2E7</p>
         <div class="stats-row">
-          <span class="stat">👁 0</span>
-          <span class="stat">👍 0</span>
+          <span class="stat">👁 4,832</span>
+          <span class="stat">👍 110</span>
           <span class="stat">💬 0</span>
           <span class="stat age">0d ago</span>
         </div>
-        <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:4%"></div></div>
       </div>
     </div>
     <div class="video-card">
@@ -401,8 +379,8 @@
       <div class="card-body">
         <p class="card-title" title="Lily's plan to teach her boss a lesson almost cost Ted everything.">Lily's plan to teach her boss a lesson almost cost Ted everything.</p>
         <div class="stats-row">
-          <span class="stat">👁 3,864</span>
-          <span class="stat">👍 27</span>
+          <span class="stat">👁 3,966</span>
+          <span class="stat">👍 30</span>
           <span class="stat">💬 1</span>
           <span class="stat age">1d ago</span>
         </div>
@@ -417,8 +395,8 @@
       <div class="card-body">
         <p class="card-title" title="Barney's Schemes 😭 | HIMYM S2E6">Barney's Schemes 😭 | HIMYM S2E6</p>
         <div class="stats-row">
-          <span class="stat">👁 3,194</span>
-          <span class="stat">👍 22</span>
+          <span class="stat">👁 3,197</span>
+          <span class="stat">👍 24</span>
           <span class="stat">💬 0</span>
           <span class="stat age">1d ago</span>
         </div>
@@ -436,7 +414,7 @@
           <span class="stat">👁 20,052</span>
           <span class="stat">👍 202</span>
           <span class="stat">💬 1</span>
-          <span class="stat age">3d ago</span>
+          <span class="stat age">4d ago</span>
         </div>
         <div class="bar-track"><div class="bar-fill" style="width:20%"></div></div>
       </div>
@@ -468,7 +446,7 @@
           <span class="stat">👁 6,051</span>
           <span class="stat">👍 56</span>
           <span class="stat">💬 0</span>
-          <span class="stat age">4d ago</span>
+          <span class="stat age">5d ago</span>
         </div>
         <div class="bar-track"><div class="bar-fill" style="width:6%"></div></div>
       </div>
@@ -481,7 +459,7 @@
       <div class="card-body">
         <p class="card-title" title="Marshall & Lily 😭 | HIMYM S1E8">Marshall & Lily 😭 | HIMYM S1E8</p>
         <div class="stats-row">
-          <span class="stat">👁 4,355</span>
+          <span class="stat">👁 4,356</span>
           <span class="stat">👍 52</span>
           <span class="stat">💬 0</span>
           <span class="stat age">5d ago</span>
@@ -526,7 +504,7 @@
 
   <div class="cross-card">
     <h3>Cross-Channel Insights</h3>
-    <ul><li>HIMYM clips significantly outperform Friends clips in average views (11,244 vs 855). This suggests HIMYM content, or the specific clips chosen, might be inherently more 'viral' or resonate better with the current Shorts audience. It could also indicate a stronger existing HIMYM fanbase on the platform.</li><li>Both channels suffer from a critical '0-3 view' problem on recent uploads. This indicates a systemic issue with initial hook engineering and/or auto-generated thumbnails that prevents the algorithm from giving the content any meaningful push. This is the most urgent cross-channel problem.</li><li>Both channels have critically low comment engagement despite varying view counts. This is a universal missed opportunity for both algorithmic boosting and community building. Likes are present, but comments are almost non-existent.</li></ul>
+    <ul><li>HIMYM clips significantly outperform Friends clips in average views (11.5k vs. 896), indicating a stronger audience resonance or more effective content selection for HIMYM, or a more engaged existing fanbase.</li><li>Both channels exhibit critical failures (1-3 views) on specific videos, highlighting a shared, fundamental flaw in content selection or title/hook execution that requires immediate, systemic correction.</li><li>The 'character-brand' title format (e.g., 'Barney's Schemes') is highly effective for HIMYM, while Friends appears to benefit more from narrative-driven curiosity gap titles, suggesting distinct audience preferences and content strategies are needed for each show.</li><li>A universal lack of comments across both channels represents a major missed opportunity for algorithmic boost and community building, indicating a need for explicit CTAs and engagement strategies.</li></ul>
   </div>
 </main>
 </div>
@@ -550,33 +528,10 @@
 </main>
 </div>
 
-<!-- ═══════════════ EXPERT AGENT TAB ═══════════════ -->
-<div id="tab-expert" class="tab-content">
-<main>
-  <div class="expert-wrap">
-
-    <div class="expert-input-card">
-      <h3>Social Media Expert Agent</h3>
-      <p class="expert-desc">The agent reads your live analytics data <em>and</em> the actual pipeline code from both repos before answering.</p>
-      <textarea id="expert-question" class="expert-textarea"
-        placeholder="e.g. Why is one channel outperforming the other? What should I change in the captioner to boost retention?"></textarea>
-      <br>
-      <button class="ask-btn" id="ask-btn" onclick="askExpert()">Ask Expert</button>
-      <p id="expert-status" class="expert-status"></p>
-    </div>
-
-    <div id="expert-response-area" style="display:none">
-      <!-- Rendered by JS -->
-    </div>
-
-  </div>
-</main>
-</div>
-
 <footer>Auto-refreshed every 5 hours via GitHub Actions + cron-job.org</footer>
 
 <script>
-const ACTION_ITEMS = [{"channel": "channel1", "channel_name": "Friends Clips", "channel_slug": "friends", "priority": 1, "action": "Overhaul Hook Engineering: Every clip MUST have an immediate, visually dynamic, and context-setting moment within the first 1-3 seconds. Front-load the most compelling part of the clip or add a text overlay that teases the conflict/punchline.", "why": "The 0-1 view videos are a death sentence. This indicates the initial algorithmic test audience is swiping away instantly. A strong, immediate hook is critical to capture attention and signal watchability to YouTube's algorithm.", "impact": "Eliminate 0-1 view videos entirely, increase average watch time by 5-10%, and boost initial algorithmic reach by 2-3x, leading to a 100-200% increase in average views per Short."}, {"channel": "channel2", "channel_name": "HIMYM Clips", "channel_slug": "himym", "priority": 1, "action": "Immediate Hook Audit & Refinement: Analyze the first 3 seconds of the 0-3 view videos against your most successful clips. Identify the precise differences in visual appeal, immediate context, and pacing that cause the failures.", "why": "These 'dead' videos are a critical anomaly for a channel with proven success. Pinpointing the exact hook flaw (e.g., slow start, confusing visual, lack of immediate payoff) is essential to prevent future wasted content and maintain consistent high performance.", "impact": "Eliminate future 0-3 view videos, ensuring a higher floor for all uploads and preventing algorithmic penalties from failed content, leading to a 5-10% increase in overall channel views."}, {"channel": "channel1", "channel_name": "Friends Clips", "channel_slug": "friends", "priority": 2, "action": "Implement Curiosity-Gap Title Strategy: Replace generic 'Character Being Character 😭' titles with narrative-driven, curiosity-inducing phrases that highlight the specific conflict, humor, or unexpected twist of the clip.", "why": "Current titles offer no incentive to click. A well-crafted curiosity gap title compels viewers to watch to find out what happens, significantly improving click-through rates (CTR).", "impact": "Increase CTR by 5-10%, leading to a 50-100% increase in views for videos that currently get ~1k views, pushing them into the 2k-3k range."}, {"channel": "channel2", "channel_name": "HIMYM Clips", "channel_slug": "himym", "priority": 2, "action": "Diversify & Optimize Title Formats: Experiment with more descriptive, emotionally resonant, or curiosity-driven titles that go beyond 'Character's Schemes 😭'. Focus on the specific plot point, punchline, or emotional arc of the clip.", "why": "While current titles work for some, more engaging and specific titles can attract a broader audience and improve CTR for existing viewers, especially those not already familiar with the specific episode.", "impact": "Increase CTR by 2-5%, leading to a 10-20% increase in views for videos currently performing in the 5k-15k range, pushing more into the 20k+ bracket."}, {"channel": "channel1", "channel_name": "Friends Clips", "channel_slug": "friends", "priority": 3, "action": "Integrate Specific Call-to-Actions (CTAs) in Captions: End every caption with a direct, open-ended question related to the clip's content to solicit comments.", "why": "Comment engagement is virtually non-existent. Comments are a powerful signal to the YouTube algorithm that content is engaging and fosters community, leading to broader distribution.", "impact": "Increase comment count by 5-10x per video, boosting algorithmic favorability and potentially increasing views by 20-30% as the algorithm sees more interaction."}, {"channel": "channel2", "channel_name": "HIMYM Clips", "channel_slug": "himym", "priority": 3, "action": "Implement Aggressive Comment CTAs: Consistently include a clear, engaging, and open-ended question in every video's caption to prompt viewer comments.", "why": "Despite high views, comment engagement is critically low. Comments are a strong indicator of community and content value to the YouTube algorithm, significantly boosting distribution.", "impact": "Increase comment count by 5-10x per video, boosting algorithmic favorability and potentially increasing views by 10-20% for videos that already perform well."}];
+const ACTION_ITEMS = [{"channel": "channel1", "channel_name": "Friends Clips", "channel_slug": "friends", "priority": 1, "action": "Revamp title strategy: Eliminate generic 'Character Being Character 😭' titles. Instead, craft narrative-driven titles that create a strong curiosity gap without spoiling the punchline. Test specific intriguing questions or cliffhangers. Remove the overused '😭' emoji.", "why": "The 1-view and 88-view videos demonstrate that poor/spoiler titles kill performance. The slightly better performing narrative titles ('Monica got a promotion...') suggest this approach resonates more with the Friends audience. The '😭' emoji has lost its impact due to overuse.", "impact": "Increase average views by 50-100% (from ~900 to 1350-1800) by improving click-through rate (CTR) and initial watch time. Eliminate outlier failures (1 view, 88 views) entirely."}, {"channel": "channel2", "channel_name": "HIMYM Clips", "channel_slug": "himym", "priority": 1, "action": "Eliminate critical failures: Immediately implement a strict pre-publish review process to prevent any future videos like the 3-view disaster. This includes scrutinizing clip selection, ensuring titles do not spoil the entire joke, and avoiding potentially problematic emojis or explicit language in titles.", "why": "A 3-view video is an algorithmic red flag that can negatively impact the channel's overall reach and trust score. The specific title was a complete spoiler and potentially inappropriate, leading to immediate swipes.", "impact": "Prevent future critical failures, maintaining a high floor for views (e.g., minimum 3,000-5,000 views per short), and protecting the channel's long-term health and algorithmic standing."}, {"channel": "channel1", "channel_name": "Friends Clips", "channel_slug": "friends", "priority": 2, "action": "Engineer stronger hooks: For every short, ensure the first 0.5-2 seconds are visually dynamic, immediately engaging, and set up the clip's premise without giving away the core joke or moment. Consider adding a quick text overlay hook.", "why": "The first 0.5 seconds determines 80% of retention. Low views suggest viewers are swiping away immediately. Even a good title can't save a weak visual hook.", "impact": "Increase average watch time percentage by 5-10%, leading to a 20-30% increase in views for otherwise decent clips, and reducing swipe-away rates."}, {"channel": "channel2", "channel_name": "HIMYM Clips", "channel_slug": "himym", "priority": 2, "action": "Optimize existing successful title formats: While 'Barney's Schemes' works, test variations that add a *hint* of curiosity or a specific, intriguing detail without spoiling the punchline. E.g., 'Barney's CRAZIEST Scheme to...' or 'Barney's Scheme that went WRONG'. Reduce reliance on the '😭' emoji.", "why": "The current titles are good but could be great. Adding a stronger curiosity gap could push more videos into the 20k+ range and beyond, maximizing viral potential. The '😭' emoji is becoming generic.", "impact": "Increase average views by 15-25% (from ~11.5k to 13k-14k) for these types of videos, pushing more into the viral tier and improving CTR."}, {"channel": "channel1", "channel_name": "Friends Clips", "channel_slug": "friends", "priority": 3, "action": "Implement clear calls-to-action (CTAs) for comments: Add a subtle, engaging question related to the clip in the caption (e.g., 'What's your favorite Joey moment?') or a quick text overlay at the end of the video.", "why": "Zero comments indicate a complete lack of community engagement, which the YouTube Shorts algorithm heavily values for distribution. It also means no direct audience feedback.", "impact": "Increase comments from 0 to 5-10 per video, significantly boosting algorithm favorability and providing valuable audience insights for future content."}, {"channel": "channel2", "channel_name": "HIMYM Clips", "channel_slug": "himym", "priority": 3, "action": "Implement clear calls-to-action (CTAs) for comments: Similar to Channel 1, add engaging questions in the caption or a quick text overlay at the end of the video to prompt viewer interaction.", "why": "Despite high views, comments are almost non-existent. The algorithm rewards engagement (likes, comments, shares, re-watches). This is a major missed opportunity for growth.", "impact": "Increase comments from 0-1 to 10-20 per video, significantly boosting algorithm favorability, fostering a stronger community, and providing valuable audience feedback."}];
 const ANALYTICS_REPO = 'rg-incognito/shorts-analytics';
 const triggered = new Set(JSON.parse(localStorage.getItem('triggered') || '[]'));
 
@@ -710,148 +665,6 @@ async function fixIt(idx) {
 }
 
 renderActions();
-
-// ── Expert Agent ──────────────────────────────────────────────────────────────
-let expertPollTimer = null;
-let expertDispatchTime = parseInt(localStorage.getItem('expert_dispatch_time') || '0');
-
-function askExpert() {
-  const pat = localStorage.getItem('gh_pat') || document.getElementById('pat-input').value.trim();
-  if (!pat) {
-    setExpertStatus('Enter your GitHub PAT in the Action Items tab first', 'var(--red)');
-    return;
-  }
-  const question = document.getElementById('expert-question').value.trim();
-  if (!question) {
-    setExpertStatus('Please enter a question first', 'var(--red)');
-    return;
-  }
-
-  const btn = document.getElementById('ask-btn');
-  btn.textContent = 'Dispatching…';
-  btn.disabled = true;
-  setExpertStatus('', '');
-
-  fetch(`https://api.github.com/repos/${ANALYTICS_REPO}/actions/workflows/ask_expert.yml/dispatches`, {
-    method: 'POST',
-    headers: {
-      'Authorization':        'Bearer ' + pat,
-      'Accept':               'application/vnd.github+json',
-      'X-GitHub-Api-Version': '2022-11-28',
-      'Content-Type':         'application/json',
-    },
-    body: JSON.stringify({ ref: 'master', inputs: { question } })
-  }).then(async resp => {
-    if (resp.status === 204) {
-      btn.textContent = 'Waiting for response…';
-      setExpertStatus('⏳ Dispatched — the agent usually responds in ~90 seconds', 'var(--yellow)');
-      expertDispatchTime = Date.now();
-      localStorage.setItem('expert_dispatch_time', expertDispatchTime);
-      localStorage.setItem('expert_question', question);
-      startExpertPolling();
-    } else {
-      btn.textContent = 'Ask Expert';
-      btn.disabled = false;
-      const msg = resp.status === 401 ? 'PAT invalid or expired' :
-                  resp.status === 403 ? 'PAT lacks workflow scope' :
-                  'Dispatch error ' + resp.status;
-      setExpertStatus(msg, 'var(--red)');
-    }
-  }).catch(e => {
-    btn.textContent = 'Ask Expert';
-    btn.disabled = false;
-    setExpertStatus('Network error — ' + e.message, 'var(--red)');
-  });
-}
-
-function setExpertStatus(msg, color) {
-  const el = document.getElementById('expert-status');
-  el.textContent = msg;
-  el.style.color = color || 'var(--muted)';
-}
-
-function startExpertPolling() {
-  if (expertPollTimer) clearInterval(expertPollTimer);
-  expertPollTimer = setInterval(pollExpertResponse, 10000);
-}
-
-async function pollExpertResponse() {
-  try {
-    const resp = await fetch('expert_response.json?t=' + Date.now());
-    if (!resp.ok) return;
-    const data = await resp.json();
-    const ts = new Date(data.generated_at).getTime();
-    if (ts > expertDispatchTime && data.answer) {
-      clearInterval(expertPollTimer);
-      expertPollTimer = null;
-      localStorage.removeItem('expert_dispatch_time');
-      renderExpertResponse(data);
-      const btn = document.getElementById('ask-btn');
-      btn.textContent = 'Ask Expert';
-      btn.disabled = false;
-      setExpertStatus('✓ Response received', 'var(--green)');
-    }
-  } catch(e) { /* keep polling */ }
-}
-
-function renderExpertResponse(data) {
-  const area = document.getElementById('expert-response-area');
-  if (!area) return;
-  area.style.display = 'block';
-
-  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-  let html = '<div class="expert-response-card">';
-  html += '<div class="expert-q-echo">' + esc(data.question || '') + '</div>';
-  html += '<div class="expert-answer">' + esc(data.answer || '').replace(/\n/g,'<br>') + '</div>';
-
-  const insights = data.key_insights || [];
-  if (insights.length) {
-    html += '<h4 class="list-heading win-head">Key Insights</h4><ul class="insight-list">';
-    insights.forEach(function(i) { html += '<li class="win">' + esc(i) + '</li>'; });
-    html += '</ul>';
-  }
-
-  const changes = data.specific_changes || [];
-  if (changes.length) {
-    html += '<h4 class="list-heading warn-head">Specific Code Changes</h4><ul class="expert-changes">';
-    changes.forEach(function(c) { html += '<li>' + esc(c) + '</li>'; });
-    html += '</ul>';
-  }
-
-  const followups = data.follow_up_questions || [];
-  if (followups.length) {
-    html += '<h4 class="list-heading">Suggested Follow-ups</h4><div class="followup-wrap">';
-    followups.forEach(function(q) {
-      html += '<button class="followup-btn" onclick="document.getElementById('expert-question').value=this.dataset.q" data-q="' + esc(q) + '">' + esc(q) + '</button>';
-    });
-    html += '</div>';
-  }
-
-  html += '<p class="expert-ts">Generated ' + esc(data.generated_at || '') + '</p></div>';
-  area.innerHTML = html;
-}
-
-// On load: restore pending state and show last response
-(function initExpert() {
-  try {
-    const savedQ = localStorage.getItem('expert_question');
-    const qEl = document.getElementById('expert-question');
-    if (savedQ && qEl) qEl.value = savedQ;
-
-    if (expertDispatchTime && Date.now() - expertDispatchTime < 300000) {
-      const btn = document.getElementById('ask-btn');
-      if (btn) { btn.textContent = 'Waiting for response…'; btn.disabled = true; }
-      setExpertStatus('⏳ Polling for response…', 'var(--yellow)');
-      startExpertPolling();
-    }
-
-    fetch('expert_response.json?t=' + Date.now())
-      .then(function(r) { return r.ok ? r.json() : null; })
-      .then(function(d) { if (d && d.answer) renderExpertResponse(d); })
-      .catch(function() {});
-  } catch(e) {}
-})();
 </script>
 </body>
 </html>

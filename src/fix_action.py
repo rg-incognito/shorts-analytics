@@ -12,11 +12,11 @@ import time
 import base64
 import requests
 
-CHANNEL        = os.environ['CHANNEL']        # 'friends' or 'himym'
-ACTION         = os.environ['ACTION_ITEM']
-WHY            = os.environ.get('WHY', '')
-ANTHROPIC_KEY  = os.environ['ANTHROPIC_API_KEY'].strip()
-PAT            = os.environ['FIX_PAT']
+CHANNEL      = os.environ['CHANNEL']        # 'friends' or 'himym'
+ACTION       = os.environ['ACTION_ITEM']
+WHY          = os.environ.get('WHY', '')
+GEMINI_KEY   = os.environ['GEMINI_API_KEY'].strip()
+PAT          = os.environ['FIX_PAT']
 
 REPO_MAP = {
     'friends': 'rg-incognito/shortgen',
@@ -88,30 +88,26 @@ def gh_create_pr(repo, title, body, head, base='master'):
     return r.json()['html_url']
 
 
-# ── Claude Sonnet ─────────────────────────────────────────────────────────────
+# ── Gemini ────────────────────────────────────────────────────────────────────
 
-def call_claude(prompt: str, retries: int = 3) -> str:
-    headers = {
-        'x-api-key':         ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01',
-        'content-type':      'application/json',
-    }
+_GEMINI_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent'
+
+def call_gemini(prompt: str, retries: int = 3) -> str:
     payload = {
-        'model':      'claude-sonnet-4-6',
-        'max_tokens': 8192,
-        'messages':   [{'role': 'user', 'content': prompt}],
+        'contents':         [{'parts': [{'text': prompt}]}],
+        'generationConfig': {'temperature': 0.1},
     }
     for attempt in range(1, retries + 1):
         try:
-            r = requests.post('https://api.anthropic.com/v1/messages',
-                              headers=headers, json=payload, timeout=120)
+            r = requests.post(_GEMINI_URL, params={'key': GEMINI_KEY},
+                              json=payload, timeout=120)
             r.raise_for_status()
-            return r.json()['content'][0]['text']
+            return r.json()['candidates'][0]['content']['parts'][0]['text']
         except Exception as e:
-            print(f'  Claude attempt {attempt} failed: {e}')
+            print(f'  Gemini attempt {attempt} failed: {e}')
             if attempt < retries:
                 time.sleep(20)
-    raise RuntimeError('Claude failed after all retries')
+    raise RuntimeError('Gemini failed after all retries')
 
 
 # ── Python syntax check ───────────────────────────────────────────────────────
@@ -204,7 +200,7 @@ Return ONLY a valid JSON object (no markdown, no explanation):
 
 CRITICAL: `old_string` must be the EXACT text from the file above, character for character including whitespace and indentation. If it doesn't match exactly, the edit will fail."""
 
-    raw = call_claude(prompt)
+    raw = call_gemini(prompt)
     raw = re.sub(r'^```(?:json)?\s*', '', raw.strip(), flags=re.MULTILINE)
     raw = re.sub(r'\s*```$',          '', raw,          flags=re.MULTILINE)
 

@@ -33,6 +33,6 @@ jobs:
           CHANNEL:           ${{ github.event.inputs.channel }}
           ACTION_ITEM:       ${{ github.event.inputs.action_item }}
           WHY:               ${{ github.event.inputs.why }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY:    ${{ secrets.GEMINI_API_KEY }}
           FIX_PAT:           ${{ secrets.FIX_PAT }}
         run: python src/fix_action.py

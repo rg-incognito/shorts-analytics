@@ -8,22 +8,39 @@
   :root {
     --bg: #0f172a; --surface: #1e293b; --border: #334155;
     --text: #e2e8f0; --muted: #94a3b8; --accent: #6366f1;
+    --green: #22c55e; --yellow: #f59e0b; --red: #ef4444;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.6; }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
   .muted { color: var(--muted); }
-  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; gap: 16px; }
-  header h1 { font-size: 18px; font-weight: 700; }
+
+  /* ── Header ── */
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  header h1 { font-size: 17px; font-weight: 700; }
   .badge { padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; color: #fff; }
   .updated { margin-left: auto; color: var(--muted); font-size: 12px; }
+
+  /* ── Tabs ── */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); background: var(--surface); padding: 0 24px; }
+  .tab-btn { padding: 12px 20px; background: none; border: none; color: var(--muted); font-size: 14px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s, border-color .15s; }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+  .tab-count { background: var(--border); color: var(--muted); font-size: 11px; padding: 1px 6px; border-radius: 10px; margin-left: 6px; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── Main layout ── */
   main { max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+  /* ── Cards ── */
   .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
-  .summary-card h2 { font-size: 14px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em; }
+  .summary-card h2 { font-size: 12px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em; }
   .summary-text { font-size: 15px; margin-bottom: 16px; }
   .focus-box { background: #1a2744; border-left: 3px solid var(--accent); padding: 12px 16px; border-radius: 0 8px 8px 0; }
   .focus-box strong { color: var(--accent); }
+
   .channels-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
   @media (max-width: 900px) { .channels-grid { grid-template-columns: 1fr; } }
   .channel-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
@@ -31,7 +48,7 @@
   .ch-meta { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
   .avg-badge { background: #1e3a5f; color: #93c5fd; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 600; }
   .highlight { padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 8px; }
-  .highlight.best { background: #14532d22; border: 1px solid #166534; }
+  .highlight.best  { background: #14532d22; border: 1px solid #166534; }
   .highlight.worst { background: #7f1d1d22; border: 1px solid #991b1b; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
   .list-heading { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 8px; }
@@ -42,12 +59,8 @@
   .insight-list li::before { content: '•'; position: absolute; left: 0; }
   .insight-list .issue::before { color: #f87171; }
   .insight-list .win::before  { color: #34d399; }
-  .actions-list { display: flex; flex-direction: column; gap: 8px; }
-  .action-card { background: #0f172a; border: 1px solid var(--border); border-radius: 8px; padding: 12px; display: flex; gap: 12px; }
-  .action-priority { background: var(--accent); color: #fff; font-weight: 700; font-size: 13px; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-  .action-text { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-  .action-why, .action-impact { font-size: 12px; color: var(--muted); }
-  .action-impact { color: #86efac; }
+
+  /* ── Video grid ── */
   .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 8px; }
   .video-card { background: #0f172a; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
   .thumb-link { position: relative; display: block; }
@@ -59,26 +72,69 @@
   .stat { font-size: 11px; color: var(--muted); }
   .stat.age { margin-left: auto; }
   .bar-track { background: var(--border); border-radius: 4px; height: 3px; margin-top: 6px; }
-  .bar-fill { background: var(--accent); border-radius: 4px; height: 3px; }
+  .bar-fill  { background: var(--accent); border-radius: 4px; height: 3px; }
+
   .cross-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
-  .cross-card h3 { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
+  .cross-card h3 { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
   .cross-card ul { list-style: none; padding: 0; }
   .cross-card li { padding: 6px 0; padding-left: 20px; position: relative; border-bottom: 1px solid var(--border); font-size: 13px; }
   .cross-card li::before { content: '⚡'; position: absolute; left: 0; }
+
+  /* ── Action Items tab ── */
+  .pat-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .pat-bar label { font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .pat-input { background: #0f172a; border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 6px 10px; border-radius: 6px; flex: 1; min-width: 260px; font-family: monospace; }
+  .pat-input:focus { outline: none; border-color: var(--accent); }
+  .pat-save { background: var(--accent); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  .pat-save:hover { opacity: .85; }
+  .pat-status { font-size: 12px; color: var(--green); }
+  .pat-hint { font-size: 12px; color: var(--muted); width: 100%; }
+
+  .action-grid { display: flex; flex-direction: column; gap: 12px; }
+  .ai-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: grid; grid-template-columns: 40px 1fr auto; gap: 16px; align-items: start; }
+  .ai-card:hover { border-color: var(--accent); }
+  .priority-ring { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+  .p1 { background: #7c3aed22; border: 2px solid #7c3aed; color: #a78bfa; }
+  .p2 { background: #b45309aa; border: 2px solid #d97706; color: #fbbf24; }
+  .p3 { background: #1e3a5f; border: 2px solid #3b82f6; color: #93c5fd; }
+  .p-other { background: var(--border); border: 2px solid var(--muted); color: var(--muted); }
+  .ai-body { min-width: 0; }
+  .ai-channel-tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; }
+  .tag-friends { background: #166534; color: #86efac; }
+  .tag-himym   { background: #1e3a5f; color: #93c5fd; }
+  .ai-action   { font-size: 15px; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
+  .ai-why      { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .ai-impact   { font-size: 13px; color: #86efac; }
+  .fix-btn { background: var(--accent); color: #fff; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; white-space: nowrap; transition: background .15s; align-self: center; }
+  .fix-btn:hover { background: #4f46e5; }
+  .fix-btn:disabled { opacity: .5; cursor: not-allowed; }
+  .fix-status { font-size: 12px; margin-top: 4px; text-align: center; }
+
+  .done-banner { background: #14532d22; border: 1px solid var(--green); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--green); margin-top: 4px; }
+
   footer { text-align: center; color: var(--muted); font-size: 12px; padding: 24px; border-top: 1px solid var(--border); margin-top: 24px; }
 </style>
 </head>
 <body>
+
 <header>
   <h1>Shorts Analytics</h1>
-  <span class="badge" style="background:#ef4444">CRITICAL</span>
-  <span class="updated">Last updated: 2026-06-04 12:42 UTC</span>
+  <span class="badge" style="background:#f59e0b">WARNING</span>
+  <span class="updated">Last updated: 2026-06-04 12:56 UTC</span>
 </header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('dashboard', this)">Dashboard</button>
+  <button class="tab-btn" onclick="switchTab('actions', this)">Action Items <span class="tab-count">6</span></button>
+</div>
+
+<!-- ═══════════════ DASHBOARD TAB ═══════════════ -->
+<div id="tab-dashboard" class="tab-content active">
 <main>
   <div class="summary-card">
     <h2>Executive Summary</h2>
-    <p class="summary-text">Both channels are severely underperforming, with 'Friends Clips' struggling to break 1,500 views consistently and 'HIMYM Clips' showing extreme volatility, including catastrophic failures on recent uploads. The core issues lie in inconsistent title strategies, poor hook engineering, and a complete lack of community engagement.</p>
-    <div class="focus-box"><strong>This Week's Focus:</strong> The ONE most important thing to fix this week across both channels is to **standardize and optimize the title strategy in conjunction with aggressive hook engineering**. For HIMYM, this means immediately reverting to a proven, curiosity-driven title format and fixing the hooks on recent failures. For Friends, it means abandoning generic titles and developing truly engaging, curiosity-gap titles with strong, immediate hooks.</div>
+    <p class="summary-text">The HIMYM channel demonstrates strong potential with several viral hits, but recent performance shows a concerning decline and critical failures in new title experimentation. The Friends channel is severely underperforming, stuck in a low view count plateau with minimal engagement and an inconsistent content strategy.</p>
+    <div class="focus-box"><strong>This Week's Focus:</strong> The ONE most important thing to fix this week across both channels is to **implement a compelling 0.5-second visual hook for every video and craft curiosity-driven titles that tease the clip's climax without giving it away.** This addresses the fundamental problem of initial audience retention and click-through, which is currently crippling both channels' growth and preventing algorithm promotion.</div>
   </div>
 
   <div class="channels-grid">
@@ -86,46 +142,20 @@
       <h3>Friends Clips</h3>
       
     <div class="ch-meta">
-      <span class="avg-badge">Avg 999 views</span>
+      <span class="avg-badge">Avg 1,069 views</span>
       <span style="color:#94a3b8">→ Stable</span>
     </div>
     <div class="highlight best">🏆 Best: <a href="https://youtu.be/tYV4iZswWMg" target="_blank">Joey Being Joey 😭 | Friends S2E23</a> — 1,373 views</div><div class="highlight worst">📉 Lowest: <a href="https://youtu.be/_cRA13lVJgo" target="_blank">Phoebe actually bites her massage client and then gets sued </a> — 1 views</div>
     <div class="two-col">
       <div>
         <h4 class="list-heading warn-head">Issues</h4>
-        <ul class="insight-list"><li class="issue">Consistently low view counts, struggling to break 1,500 views.</li><li class="issue">Extremely low engagement (likes-to-view ratio and zero comments on almost all videos).</li><li class="issue">Generic and uninspiring titles ('X Being X 😭') fail to generate curiosity.</li><li class="issue">Recent attempt at descriptive titles resulted in a catastrophic 1-view video, indicating a fundamental misunderstanding of hook/title synergy.</li><li class="issue">Poor hook engineering, failing to grab attention in the critical first 0.5 seconds.</li></ul>
+        <ul class="insight-list"><li class="issue">Extremely low overall view counts, consistently hovering around 1,000 views, indicating a lack of algorithm promotion.</li><li class="issue">Catastrophic failures with narrative-style titles (e.g., 1 view, 88 views), suggesting severe hook/title mismatch or content issues leading to immediate swipes.</li><li class="issue">Generic 'Character Being Character' titles lack a curiosity gap, relying solely on existing fan loyalty which is insufficient for Shorts virality.</li><li class="issue">Near-zero comment engagement across all videos, failing to signal community interaction to the algorithm.</li><li class="issue">Low like-to-view ratio (2-4%) suggests poor watch time percentage and high swipe-away rates, indicating a failure in the first 0.5 seconds.</li></ul>
       </div>
       <div>
         <h4 class="list-heading win-head">Wins</h4>
-        <ul class="insight-list"><li class="win">Consistent posting frequency (multiple videos per day).</li><li class="win">Initial, albeit flawed, attempt to move away from generic titles.</li></ul>
+        <ul class="insight-list"><li class="win">Consistent posting frequency, maintaining a basic presence on the platform.</li><li class="win">A baseline audience exists, as evidenced by the consistent ~1,000 views for generic titles, showing some inherent interest.</li></ul>
       </div>
     </div>
-    <h4 class="list-heading">Top Actions</h4>
-    <div class="actions-list">
-        <div class="action-card">
-          <div class="action-priority">#1</div>
-          <div class="action-body">
-            <p class="action-text">Revamp ALL titles to be curiosity-gap driven, teasing the clip's core conflict or punchline without spoiling it. For example, instead of 'Monica got a promotion, took steaks home, and was instantly fired 🥩', try 'Monica's promotion lasted less than an hour 🥩' or 'She got fired for WHAT?! Monica's steak disaster'.</p>
-            <p class="action-why">Why: The current generic titles offer no incentive to click/watch, and the descriptive titles are too explicit, spoiling the joke entirely. Curiosity-gap titles significantly increase initial click-through rate (CTR) and initial watch time.</p>
-            <p class="action-impact">Impact: Increase average views by 200-300% (to 2,000-3,000 views) and improve initial watch time % by 5-10%.</p>
-          </div>
-        </div>
-        <div class="action-card">
-          <div class="action-priority">#2</div>
-          <div class="action-body">
-            <p class="action-text">Implement aggressive hook engineering. For every clip, identify the most visually engaging, surprising, or funny 0.5-1 second and start the video there. Cut all dead air, slow build-ups, or irrelevant intros.</p>
-            <p class="action-why">Why: The 1-view video and consistently low performance indicate viewers are swiping away immediately. A strong, immediate hook is crucial for retaining viewers past the first second, which directly impacts the Shorts algorithm's decision to push content.</p>
-            <p class="action-impact">Impact: Reduce swipe-away rate by 15-20% and increase average watch time % by 10-15%.</p>
-          </div>
-        </div>
-        <div class="action-card">
-          <div class="action-priority">#3</div>
-          <div class="action-body">
-            <p class="action-text">Integrate subtle, engaging calls-to-action (CTAs) in captions. Ask open-ended questions related to the clip (e.g., 'What's your favorite Monica moment?' or 'Who else relates to Phoebe here? 👇').</p>
-            <p class="action-why">Why: Zero comments indicate a complete lack of community interaction. CTAs prompt engagement, which signals to the algorithm that the content is valuable and fosters a loyal audience.</p>
-            <p class="action-impact">Impact: Increase comment rate from 0% to 1-2% per video and improve overall channel engagement metrics.</p>
-          </div>
-        </div></div>
     <h4 class="list-heading">Recent Videos</h4>
     <div class="video-grid">
     <div class="video-card">
@@ -136,7 +166,7 @@
       <div class="card-body">
         <p class="card-title" title="Monica got a promotion, took steaks home, and was instantly fired 🥩">Monica got a promotion, took steaks home, and was instantly fired 🥩</p>
         <div class="stats-row">
-          <span class="stat">👁 1,157</span>
+          <span class="stat">👁 1,152</span>
           <span class="stat">👍 41</span>
           <span class="stat">💬 0</span>
           <span class="stat age">0d ago</span>
@@ -168,7 +198,7 @@
       <div class="card-body">
         <p class="card-title" title="The Gang 😭 | Friends S2E5">The Gang 😭 | Friends S2E5</p>
         <div class="stats-row">
-          <span class="stat">👁 1,174</span>
+          <span class="stat">👁 1,177</span>
           <span class="stat">👍 33</span>
           <span class="stat">💬 1</span>
           <span class="stat age">1d ago</span>
@@ -293,46 +323,20 @@
       <h3>HIMYM Clips</h3>
       
     <div class="ch-meta">
-      <span class="avg-badge">Avg 10,117 views</span>
+      <span class="avg-badge">Avg 12,512 views</span>
       <span style="color:#ef4444">↓ Declining</span>
     </div>
     <div class="highlight best">🏆 Best: <a href="https://youtu.be/uOIayd8hBDE" target="_blank">Marshall & Lily 😭 | HIMYM S1E6</a> — 26,803 views</div><div class="highlight worst">📉 Lowest: <a href="https://youtu.be/B9T_EinKAJA" target="_blank">Ted's boss proudly unveils his new skyscraper design, comple</a> — 3 views</div>
     <div class="two-col">
       <div>
         <h4 class="list-heading warn-head">Issues</h4>
-        <ul class="insight-list"><li class="issue">Extreme inconsistency in performance, with high-performing videos (20k+ views) alongside catastrophic failures (3 views) on the same day.</li><li class="issue">Recent shift to descriptive titles has been disastrous, actively killing curiosity and spoiling the joke (e.g., the 3-view video).</li><li class="issue">Low like-to-view ratio on even high-performing videos (e.g., 20k views with only 202 likes is ~1%, which is poor).</li><li class="issue">Very low comment rate, indicating missed opportunities for community building.</li><li class="issue">Poor hook engineering on low-performing videos, leading to immediate swipe-aways.</li></ul>
+        <ul class="insight-list"><li class="issue">Significant recent decline in views, with newer videos (3k-6k) performing far below the channel's established viral potential (10k-26k), indicating a loss of algorithm favor.</li><li class="issue">Catastrophic failures with narrative-style titles (e.g., 3 views, 3.5k views), especially the '🍆' emoji title which likely triggered content filters or alienated viewers, leading to immediate swipes.</li><li class="issue">While higher than Friends, comment engagement is still very low for a channel with viral reach, missing out on crucial algorithm signals.</li><li class="issue">Reliance on generic 'Character's Trait' titles, which, while currently working, could be optimized for even greater reach and consistency by adding more specific hooks.</li></ul>
       </div>
       <div>
         <h4 class="list-heading win-head">Wins</h4>
-        <ul class="insight-list"><li class="win">Proven ability to hit significant view counts (10k-20k+) with the 'Character's X 😭' title format.</li><li class="win">Consistent posting frequency.</li></ul>
+        <ul class="insight-list"><li class="win">Proven ability to achieve viral view counts (20k+ views) with specific character-focused clips, demonstrating strong content appeal.</li><li class="win">Higher average view count compared to the Friends channel, indicating stronger audience interest and initial algorithm favorability for HIMYM content.</li><li class="win">Consistent posting frequency, maintaining channel activity.</li></ul>
       </div>
     </div>
-    <h4 class="list-heading">Top Actions</h4>
-    <div class="actions-list">
-        <div class="action-card">
-          <div class="action-priority">#1</div>
-          <div class="action-body">
-            <p class="action-text">Immediately revert and standardize the title strategy. Abandon the explicit, descriptive titles that spoil the joke. Return to a variation of the 'Character's X 😭 | HIMYM SxE' format, or a curiosity-gap title that *teases* the character's common trope or a specific, intriguing event without giving away the punchline.</p>
-            <p class="action-why">Why: The data clearly shows the 'Character's X 😭' format performs significantly better for HIMYM. The new descriptive titles are actively harming performance by eliminating the curiosity gap and spoiling the content, leading to abysmal view counts.</p>
-            <p class="action-impact">Impact: Eliminate 3-view failures, stabilize average views, and bring low-performing videos back into the 5,000-10,000+ range, improving overall channel consistency by 50-70%.</p>
-          </div>
-        </div>
-        <div class="action-card">
-          <div class="action-priority">#2</div>
-          <div class="action-body">
-            <p class="action-text">Conduct a deep dive into the first 0.5-1 second of the 3-view and other low-performing videos. Identify exactly why the hook failed (e.g., slow start, confusing visual, lack of immediate intrigue) and re-edit to start with the most captivating moment.</p>
-            <p class="action-why">Why: The extreme low view counts indicate an immediate swipe-away. The hook is the gatekeeper; if it fails, the video dies. Optimizing this will drastically reduce the swipe-away rate.</p>
-            <p class="action-impact">Impact: Increase initial watch time % by 15-20% on previously low-performing videos, pushing them into the algorithm's favor.</p>
-          </div>
-        </div>
-        <div class="action-card">
-          <div class="action-priority">#3</div>
-          <div class="action-body">
-            <p class="action-text">Actively prompt engagement in captions. Ask specific, open-ended questions related to the clip's content or character (e.g., 'What's your favorite Barney scheme?' or 'Did Lily go too far here? 👇').</p>
-            <p class="action-why">Why: Despite higher views, the comment rate is still very low. Encouraging comments boosts algorithm signals, builds community, and increases the likelihood of re-watches as users scroll through comments.</p>
-            <p class="action-impact">Impact: Increase comment rate from <0.5% to 2-3% per video and improve overall engagement metrics.</p>
-          </div>
-        </div></div>
     <h4 class="list-heading">Recent Videos</h4>
     <div class="video-grid">
     <div class="video-card">
@@ -359,7 +363,7 @@
       <div class="card-body">
         <p class="card-title" title="Lily's plan to teach her boss a lesson almost cost Ted everything.">Lily's plan to teach her boss a lesson almost cost Ted everything.</p>
         <div class="stats-row">
-          <span class="stat">👁 3,575</span>
+          <span class="stat">👁 3,587</span>
           <span class="stat">👍 26</span>
           <span class="stat">💬 0</span>
           <span class="stat age">0d ago</span>
@@ -500,9 +504,167 @@
 
   <div class="cross-card">
     <h3>Cross-Channel Insights</h3>
-    <ul><li>HIMYM clips demonstrate significantly higher viral potential and average views compared to Friends clips, indicating a stronger audience resonance or better content selection when the strategy aligns.</li><li>The optimal title strategy differs drastically: generic 'Character Being Character' titles underperform for Friends, while descriptive, explicit titles are catastrophic for HIMYM. Both channels need to find their unique curiosity-gap sweet spot.</li><li>Both channels suffer from critical hook engineering failures on their lowest-performing videos, leading to immediate audience abandonment.</li><li>Engagement (likes-to-view ratio and comments) is a universal weakness across both channels, suggesting a missed opportunity for community building and algorithm signals.</li></ul>
+    <ul><li>HIMYM clips are significantly outperforming Friends clips in terms of raw view counts (avg 12.5k vs 1k), indicating stronger audience interest or better algorithm favorability for HIMYM content on Shorts.</li><li>Both channels exhibit a critical failure when attempting narrative-style titles, which consistently lead to catastrophic underperformance compared to character-focused titles. This suggests a fundamental misunderstanding of Shorts title psychology.</li><li>Both channels suffer from extremely low comment engagement, suggesting a missed opportunity to leverage community interaction for algorithm boosts and audience loyalty, regardless of content type.</li><li>The 'Character Being Character/Trait' title format, while generic, performs much better for HIMYM than Friends, highlighting a potential difference in character recognition or clip appeal between the two shows on Shorts, or a more saturated market for Friends clips.</li></ul>
   </div>
 </main>
+</div>
+
+<!-- ═══════════════ ACTION ITEMS TAB ═══════════════ -->
+<div id="tab-actions" class="tab-content">
+<main>
+
+  <div class="pat-bar">
+    <label>GitHub PAT</label>
+    <input id="pat-input" class="pat-input" type="password" placeholder="ghp_... or gho_... (needs repo + workflow scope)">
+    <button class="pat-save" onclick="savePat()">Save</button>
+    <span id="pat-status" class="pat-status"></span>
+    <span class="pat-hint">Stored only in your browser localStorage — never sent anywhere except GitHub's API. Needed to trigger the Fix workflow.</span>
+  </div>
+
+  <div class="action-grid" id="action-grid">
+    <!-- Rendered by JS from embedded data -->
+  </div>
+
+</main>
+</div>
+
 <footer>Auto-refreshed every 5 hours via GitHub Actions + cron-job.org</footer>
+
+<script>
+const ACTION_ITEMS = [{"channel": "channel1", "channel_name": "Friends Clips", "channel_slug": "friends", "priority": 1, "action": "Immediately cease using narrative-style titles. All future titles must be concise, curiosity-driven, and tease the clip's most impactful moment without spoiling it.", "why": "Narrative titles like 'Phoebe actually bites...' are leading to catastrophic view counts (1, 88 views), indicating a complete failure to hook the audience or potential algorithm penalties due to high swipe-away rates. The current generic titles are underperforming.", "impact": "Eliminate critical failures, raise the floor of view counts from 1-100 to at least 1,000+, and improve initial click-through rate (CTR) by 20-30%."}, {"channel": "channel2", "channel_name": "HIMYM Clips", "channel_slug": "himym", "priority": 1, "action": "Immediately cease using narrative-style titles and any potentially problematic emojis (like '🍆'). Revert to and optimize the character-focused title format with a stronger, curiosity-driven hook.", "why": "The narrative titles are catastrophic failures (3 views, 3.5k views) and are actively harming channel performance and potentially triggering algorithm flags. The '🍆' emoji is a clear misstep that likely caused high swipe-away rates or content suppression.", "impact": "Eliminate critical failures, prevent further algorithm penalties, and immediately raise the floor of view counts for these types of videos from 3-3.5k to at least 10k+, reversing the recent decline."}, {"channel": "channel1", "channel_name": "Friends Clips", "channel_slug": "friends", "priority": 2, "action": "Implement a compelling 0.5-second visual hook for every video. This means cutting directly to the most surprising, funny, or dramatic moment, or using a dynamic text overlay that poses an intriguing question related to the clip's climax.", "why": "The extremely low views and engagement suggest viewers are swiping away almost immediately. The first 0.5 seconds are critical for retention and algorithm promotion. A strong visual hook grabs attention instantly.", "impact": "Significantly improve watch time percentage (by 10-15%) and reduce swipe-away rate, leading to a 2x-3x increase in average views (from ~1,000 to 2,000-3,000)."}, {"channel": "channel2", "channel_name": "HIMYM Clips", "channel_slug": "himym", "priority": 2, "action": "Conduct a deep dive into the top-performing videos (20k+ views) to identify specific clip characteristics (e.g., iconic lines, specific character interactions, pacing, emotional beats) and replicate these elements in future content selection and editing.", "why": "The channel has demonstrated viral potential. Understanding the exact 'why' behind these successes is crucial to consistently replicate them and overcome the current decline, rather than relying on trial and error.", "impact": "Reverse the recent declining trend and consistently push more videos into the 15k-25k+ view range, improving the average view count by 20-30%."}, {"channel": "channel1", "channel_name": "Friends Clips", "channel_slug": "friends", "priority": 3, "action": "Add a clear, engaging call-to-action (CTA) in the caption of every video, prompting viewers to comment on a specific aspect of the clip (e.g., 'What's your favorite Joey line? 👇').", "why": "Comment engagement is virtually non-existent. The YouTube Shorts algorithm highly values community interaction as a strong signal of content quality and stickiness, which can boost reach.", "impact": "Increase comment count from 0-1 to 5-10+ per video, signaling higher engagement to the algorithm and potentially boosting reach by 10-15%."}, {"channel": "channel2", "channel_name": "HIMYM Clips", "channel_slug": "himym", "priority": 3, "action": "Implement a clear, engaging call-to-action (CTA) in the caption of every video, prompting viewers to comment on a specific aspect of the clip (e.g., 'What's your favorite Barney scheme? 👇').", "why": "Despite high views, comment engagement is very low. Increased interaction signals higher content quality to the algorithm and fosters community, which can lead to re-watch loops and broader distribution.", "impact": "Increase comment count from 0-1 to 10-20+ per video, signaling higher engagement to the algorithm and potentially boosting reach by 10-15%."}];
+const ANALYTICS_REPO = 'rg-incognito/shorts-analytics';
+const triggered = new Set(JSON.parse(localStorage.getItem('triggered') || '[]'));
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function savePat() {
+  const val = document.getElementById('pat-input').value.trim();
+  if (!val) return;
+  localStorage.setItem('gh_pat', val);
+  document.getElementById('pat-status').textContent = '✓ Saved';
+  setTimeout(() => document.getElementById('pat-status').textContent = '', 2000);
+}
+
+function priorityClass(p) {
+  if (p === 1) return 'p1';
+  if (p === 2) return 'p2';
+  if (p === 3) return 'p3';
+  return 'p-other';
+}
+
+function renderActions() {
+  const grid = document.getElementById('action-grid');
+  if (!ACTION_ITEMS.length) {
+    grid.innerHTML = '<p class="muted" style="padding:20px">No action items generated yet. Run the analytics workflow to refresh.</p>';
+    return;
+  }
+  grid.innerHTML = ACTION_ITEMS.map((item, idx) => {
+    const key = item.channel_slug + '_' + idx;
+    const isDone = triggered.has(key);
+    const tagClass = item.channel_slug === 'friends' ? 'tag-friends' : 'tag-himym';
+    return `
+    <div class="ai-card" id="card-${idx}">
+      <div class="priority-ring ${priorityClass(item.priority)}">${item.priority}</div>
+      <div class="ai-body">
+        <span class="ai-channel-tag ${tagClass}">${item.channel_name}</span>
+        <p class="ai-action">${item.action}</p>
+        <p class="ai-why">Why: ${item.why}</p>
+        <p class="ai-impact">Impact: ${item.impact}</p>
+        ${isDone ? '<div class="done-banner">✓ Fix dispatched — check GitHub Actions for the PR</div>' : ''}
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+        <button class="fix-btn" id="fix-${idx}" onclick="fixIt(${idx})" ${isDone ? 'disabled' : ''}>
+          ${isDone ? 'Dispatched' : 'Fix it'}
+        </button>
+        <span class="fix-status" id="status-${idx}"></span>
+      </div>
+    </div>`;
+  }).join('');
+
+  const pat = localStorage.getItem('gh_pat');
+  if (pat) document.getElementById('pat-input').value = pat;
+}
+
+async function fixIt(idx) {
+  const pat = localStorage.getItem('gh_pat') || document.getElementById('pat-input').value.trim();
+  if (!pat) {
+    document.getElementById('status-' + idx).textContent = 'Enter your PAT above first';
+    document.getElementById('status-' + idx).style.color = 'var(--red)';
+    return;
+  }
+
+  const item = ACTION_ITEMS[idx];
+  const btn = document.getElementById('fix-' + idx);
+  const statusEl = document.getElementById('status-' + idx);
+
+  btn.textContent = 'Dispatching…';
+  btn.disabled = true;
+  statusEl.textContent = '';
+
+  try {
+    const resp = await fetch(
+      `https://api.github.com/repos/${ANALYTICS_REPO}/actions/workflows/fix_action.yml/dispatches`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization':        'Bearer ' + pat,
+          'Accept':               'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
+          'Content-Type':         'application/json',
+        },
+        body: JSON.stringify({
+          ref: 'master',
+          inputs: {
+            channel:     item.channel_slug,
+            action_item: item.action,
+            why:         item.why,
+          },
+        }),
+      }
+    );
+
+    if (resp.status === 204) {
+      btn.textContent = 'Dispatched';
+      btn.style.background = 'var(--green)';
+      statusEl.textContent = 'Check GitHub Actions for the PR';
+      statusEl.style.color = 'var(--green)';
+      const key = item.channel_slug + '_' + idx;
+      triggered.add(key);
+      localStorage.setItem('triggered', JSON.stringify([...triggered]));
+      const card = document.getElementById('card-' + idx);
+      const body = card.querySelector('.ai-body');
+      const existing = body.querySelector('.done-banner');
+      if (!existing) {
+        const banner = document.createElement('div');
+        banner.className = 'done-banner';
+        banner.textContent = '✓ Fix dispatched — check GitHub Actions for the PR';
+        body.appendChild(banner);
+      }
+    } else {
+      const errText = await resp.text().catch(() => '');
+      btn.textContent = 'Fix it';
+      btn.disabled = false;
+      btn.style.background = '';
+      statusEl.textContent = resp.status === 401 ? 'PAT invalid or expired' :
+                             resp.status === 403 ? 'PAT lacks workflow scope' :
+                             'Error ' + resp.status;
+      statusEl.style.color = 'var(--red)';
+      console.error('dispatch error', resp.status, errText);
+    }
+  } catch (e) {
+    btn.textContent = 'Fix it';
+    btn.disabled = false;
+    statusEl.textContent = 'Network error — ' + e.message;
+    statusEl.style.color = 'var(--red)';
+  }
+}
+
+renderActions();
+</script>
 </body>
 </html>

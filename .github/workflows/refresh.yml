@@ -2,6 +2,11 @@ name: Refresh Analytics Report
 
 on:
   workflow_dispatch:
+    inputs:
+      force_refresh:
+        description: 'Force refresh (leave blank for normal run)'
+        required: false
+        default: ''
 
 jobs:
   build:

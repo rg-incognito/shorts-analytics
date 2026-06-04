@@ -576,45 +576,61 @@ async function pollExpertResponse() {{
 
 function renderExpertResponse(data) {{
   const area = document.getElementById('expert-response-area');
+  if (!area) return;
   area.style.display = 'block';
 
-  const insights = (data.key_insights || []).map(i => `<li class="win">${{i}}</li>`).join('');
-  const changes  = (data.specific_changes || []).map(c => `<li>${{c}}</li>`).join('');
-  const followups = (data.follow_up_questions || []).map(q =>
-    `<button class="followup-btn" onclick="document.getElementById('expert-question').value=this.dataset.q;document.getElementById('expert-question').scrollIntoView()" data-q="${{q.replace(/"/g,'&quot;')}}">${{q}}</button>`
-  ).join('');
+  function esc(s) {{ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }}
 
-  area.innerHTML = `
-    <div class="expert-response-card">
-      <div class="expert-q-echo">${{data.question || ''}}</div>
-      <div class="expert-answer">${{(data.answer || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}}</div>
-      ${{insights ? `<h4 class="list-heading win-head">Key Insights</h4><ul class="insight-list">${{insights}}</ul>` : ''}}
-      ${{changes  ? `<h4 class="list-heading warn-head">Specific Code Changes</h4><ul class="expert-changes">${{changes}}</ul>` : ''}}
-      ${{followups ? `<h4 class="list-heading">Suggested Follow-ups</h4><div class="followup-wrap">${{followups}}</div>` : ''}}
-      <p class="expert-ts">Generated ${{data.generated_at || ''}}</p>
-    </div>`;
+  let html = '<div class="expert-response-card">';
+  html += '<div class="expert-q-echo">' + esc(data.question || '') + '</div>';
+  html += '<div class="expert-answer">' + esc(data.answer || '').replace(/\n/g,'<br>') + '</div>';
+
+  const insights = data.key_insights || [];
+  if (insights.length) {{
+    html += '<h4 class="list-heading win-head">Key Insights</h4><ul class="insight-list">';
+    insights.forEach(function(i) {{ html += '<li class="win">' + esc(i) + '</li>'; }});
+    html += '</ul>';
+  }}
+
+  const changes = data.specific_changes || [];
+  if (changes.length) {{
+    html += '<h4 class="list-heading warn-head">Specific Code Changes</h4><ul class="expert-changes">';
+    changes.forEach(function(c) {{ html += '<li>' + esc(c) + '</li>'; }});
+    html += '</ul>';
+  }}
+
+  const followups = data.follow_up_questions || [];
+  if (followups.length) {{
+    html += '<h4 class="list-heading">Suggested Follow-ups</h4><div class="followup-wrap">';
+    followups.forEach(function(q) {{
+      html += '<button class="followup-btn" onclick="document.getElementById(\'expert-question\').value=this.dataset.q" data-q="' + esc(q) + '">' + esc(q) + '</button>';
+    }});
+    html += '</div>';
+  }}
+
+  html += '<p class="expert-ts">Generated ' + esc(data.generated_at || '') + '</p></div>';
+  area.innerHTML = html;
 }}
 
 // On load: restore pending state and show last response
-(async function initExpert() {{
+(function initExpert() {{
   try {{
-    const resp = await fetch('expert_response.json?t=' + Date.now());
-    if (resp.ok) {{
-      const data = await resp.json();
-      if (data.answer) renderExpertResponse(data);
+    const savedQ = localStorage.getItem('expert_question');
+    const qEl = document.getElementById('expert-question');
+    if (savedQ && qEl) qEl.value = savedQ;
+
+    if (expertDispatchTime && Date.now() - expertDispatchTime < 300000) {{
+      const btn = document.getElementById('ask-btn');
+      if (btn) {{ btn.textContent = 'Waiting for response…'; btn.disabled = true; }}
+      setExpertStatus('⏳ Polling for response…', 'var(--yellow)');
+      startExpertPolling();
     }}
+
+    fetch('expert_response.json?t=' + Date.now())
+      .then(function(r) {{ return r.ok ? r.json() : null; }})
+      .then(function(d) {{ if (d && d.answer) renderExpertResponse(d); }})
+      .catch(function() {{}});
   }} catch(e) {{}}
-
-  const savedQ = localStorage.getItem('expert_question');
-  if (savedQ) document.getElementById('expert-question').value = savedQ;
-
-  if (expertDispatchTime && Date.now() - expertDispatchTime < 300000) {{
-    const btn = document.getElementById('ask-btn');
-    btn.textContent = 'Waiting for response…';
-    btn.disabled = true;
-    setExpertStatus('⏳ Polling for response…', 'var(--yellow)');
-    startExpertPolling();
-  }}
 }})();
 </script>
 </body>

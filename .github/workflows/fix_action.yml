@@ -1,0 +1,38 @@
+name: Fix Action Item
+
+on:
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: 'Channel: friends or himym'
+        required: true
+      action_item:
+        description: 'Action item text to implement'
+        required: true
+      why:
+        description: 'Why this matters (from AI analysis)'
+        required: false
+        default: ''
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run AI fixer
+        env:
+          CHANNEL:       ${{ github.event.inputs.channel }}
+          ACTION_ITEM:   ${{ github.event.inputs.action_item }}
+          WHY:           ${{ github.event.inputs.why }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FIX_PAT:       ${{ secrets.FIX_PAT }}
+        run: python src/fix_action.py

@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-06-04T17:47:46.797221Z",
+  "generated_at": "2026-06-04T18:09:50.740331Z",
   "channel1_videos": [
+    {
+      "video_id": "sBsq070KOh0",
+      "title": "Joey & Chandler's \"baby\" adventure took an unexpected turn 👶",
+      "published_at": "2026-06-04T18:02:58Z",
+      "days_old": 0,
+      "duration_sec": 29,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "thumbnail": "https://i9.ytimg.com/vi/sBsq070KOh0/hqdefault.jpg?sqp=CMz8htEG&rs=AOn4CLAkAH7b6CzUbRORMT1CTaqX29vHLg",
+      "url": "https://youtu.be/sBsq070KOh0"
+    },
     {
       "video_id": "sbp4cl1zabE",
       "title": "Monica got a promotion, took steaks home, and was instantly fired 🥩",
@@ -17,7 +29,7 @@
       "video_id": "_cRA13lVJgo",
       "title": "Phoebe actually bites her massage client and then gets sued for it",
       "published_at": "2026-06-03T17:59:17Z",
-      "days_old": 0,
+      "days_old": 1,
       "duration_sec": 28,
       "views": 1,
       "likes": 1,
@@ -228,21 +240,21 @@
       "comments": 0,
       "thumbnail": "https://i.ytimg.com/vi/Yq2vIwqXVfs/hqdefault.jpg",
       "url": "https://youtu.be/Yq2vIwqXVfs"
-    },
-    {
-      "video_id": "1hVf_H_UvPA",
-      "title": "The Gang 😭 | Friends S2E9",
-      "published_at": "2026-05-24T20:55:44Z",
-      "days_old": 10,
-      "duration_sec": 26,
-      "views": 1477,
-      "likes": 33,
-      "comments": 0,
-      "thumbnail": "https://i.ytimg.com/vi/1hVf_H_UvPA/hqdefault.jpg",
-      "url": "https://youtu.be/1hVf_H_UvPA"
     }
   ],
   "channel2_videos": [
+    {
+      "video_id": "7sD3dMFYbRg",
+      "title": "Barney's Schemes 😭 | HIMYM S2E7",
+      "published_at": "2026-06-04T18:04:43Z",
+      "days_old": 0,
+      "duration_sec": 32,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "thumbnail": "https://i9.ytimg.com/vi/7sD3dMFYbRg/hqdefault.jpg?sqp=CMz8htEG&rs=AOn4CLDXEddsqUQw_LUQhrTMohceNzAUKg",
+      "url": "https://youtu.be/7sD3dMFYbRg"
+    },
     {
       "video_id": "B9T_EinKAJA",
       "title": "Ted's boss proudly unveils his new skyscraper design, completely oblivious to its shape 🍆",
@@ -259,9 +271,9 @@
       "video_id": "WuH641mBt6I",
       "title": "Lily's plan to teach her boss a lesson almost cost Ted everything.",
       "published_at": "2026-06-03T17:58:55Z",
-      "days_old": 0,
+      "days_old": 1,
       "duration_sec": 32,
-      "views": 3726,
+      "views": 3864,
       "likes": 27,
       "comments": 1,
       "thumbnail": "https://i.ytimg.com/vi/WuH641mBt6I/hqdefault.jpg",
@@ -273,7 +285,7 @@
       "published_at": "2026-06-02T21:27:18Z",
       "days_old": 1,
       "duration_sec": 32,
-      "views": 3198,
+      "views": 3194,
       "likes": 22,
       "comments": 0,
       "thumbnail": "https://i.ytimg.com/vi/UpxRX4KxVjM/hqdefault.jpg",
@@ -297,7 +309,7 @@
       "published_at": "2026-05-30T21:00:20Z",
       "days_old": 4,
       "duration_sec": 31,
-      "views": 14042,
+      "views": 14046,
       "likes": 157,
       "comments": 1,
       "thumbnail": "https://i.ytimg.com/vi/EbnCoe5Y0VI/hqdefault.jpg",
@@ -333,7 +345,7 @@
       "published_at": "2026-05-29T20:26:35Z",
       "days_old": 5,
       "duration_sec": 30,
-      "views": 17287,
+      "views": 17288,
       "likes": 106,
       "comments": 0,
       "thumbnail": "https://i.ytimg.com/vi/7GuPDslkbIo/hqdefault.jpg",
@@ -470,107 +482,93 @@
       "comments": 1,
       "thumbnail": "https://i.ytimg.com/vi/rr10hkECbEA/hqdefault.jpg",
       "url": "https://youtu.be/rr10hkECbEA"
-    },
-    {
-      "video_id": "A4BI-v46X6E",
-      "title": "Ted's Disasters 😭 | HIMYM S1E4 #funny #himymclips #sitcom",
-      "published_at": "2026-05-24T19:56:18Z",
-      "days_old": 10,
-      "duration_sec": 26,
-      "views": 18098,
-      "likes": 93,
-      "comments": 2,
-      "thumbnail": "https://i.ytimg.com/vi/A4BI-v46X6E/hqdefault.jpg",
-      "url": "https://youtu.be/A4BI-v46X6E"
     }
   ],
   "channel1_analysis": {
     "name": "Friends Clips",
-    "avg_views": 993,
+    "avg_views": 855,
     "best_video": {
       "title": "Joey Being Joey 😭 | Friends S2E23",
       "views": 1375,
       "url": "https://youtu.be/tYV4iZswWMg"
     },
     "worst_video": {
-      "title": "Phoebe actually bites her massage client and then gets sued for it",
-      "views": 1,
-      "url": "https://youtu.be/_cRA13lVJgo"
+      "title": "Joey & Chandler's \"baby\" adventure took an unexpected turn 👶",
+      "views": 0,
+      "url": "https://youtu.be/sBsq070KOh0"
     },
-    "trend": "stable",
+    "trend": "declining",
     "issues": [
-      "Catastrophically low average views (under 1,000) with multiple videos failing to launch (1 view, 88 views).",
-      "Generic 'Character Being Character 😭' titles provide no hook, leading to high swipe-away rates and low algorithm push.",
-      "New descriptive titles are also failing severely, indicating a fundamental problem with hook engineering or clip selection for these specific attempts.",
-      "Extremely low engagement (likes <3%, almost no comments) suggests content isn't resonating or prompting interaction."
+      "Catastrophic Hook Failure: Multiple videos (0-1 views) indicate a complete breakdown in the initial 0.5-second hook or auto-generated thumbnail, causing the algorithm to immediately stop pushing content.",
+      "Generic & Unengaging Titles: Over-reliance on 'Character Being Character 😭' provides no curiosity gap or specific reason to watch, leading to low click-through rates.",
+      "Critically Low Engagement: Almost no comments across all videos, and low like-to-view ratio (avg. 2-3%), signaling poor community interaction to the algorithm.",
+      "Inconsistent Content Quality/Selection: Wide variance in views suggests some clips are not resonating at all, while others barely break 1k views."
     ],
     "wins": [
-      "Consistent posting frequency, demonstrating a commitment to the channel (though content strategy needs overhaul)."
+      "Consistent Posting Schedule: The channel maintains a regular upload frequency, which is a foundational positive."
     ],
     "top_actions": [
       {
         "priority": 1,
-        "action": "Immediately cease using generic titles like 'Character Being Character 😭' and the current descriptive format. Instead, implement a 'curiosity gap' title strategy that highlights the most surprising, funny, or relatable moment without spoiling the punchline. For example, instead of 'Monica got a promotion...', try 'Monica's promotion lasted 30 seconds. Here's why.'",
-        "why": "Generic titles offer no incentive to watch, and the current descriptive titles are either too verbose or spoil the clip, leading to immediate swipes. A curiosity gap title forces the viewer to watch to get the answer, boosting initial watch time and retention.",
-        "expected_impact": "Significantly higher initial retention (first 0.5-3 seconds) and a reduction in swipe-away rate, leading to views consistently breaking the 2,000-3,000 barrier and potentially increasing average views by 100-200%."
+        "action": "Overhaul Hook Engineering: Every clip MUST have an immediate, visually dynamic, and context-setting moment within the first 1-3 seconds. Front-load the most compelling part of the clip or add a text overlay that teases the conflict/punchline.",
+        "why": "The 0-1 view videos are a death sentence. This indicates the initial algorithmic test audience is swiping away instantly. A strong, immediate hook is critical to capture attention and signal watchability to YouTube's algorithm.",
+        "expected_impact": "Eliminate 0-1 view videos entirely, increase average watch time by 5-10%, and boost initial algorithmic reach by 2-3x, leading to a 100-200% increase in average views per Short."
       },
       {
         "priority": 2,
-        "action": "Aggressively front-load the most engaging 0.5-1 second of every clip. This might mean editing the clip to start *mid-sentence*, with a strong reaction shot, or the peak of the action, then cutting back to the setup if necessary.",
-        "why": "The 1-view video ('Phoebe actually bites...') is a clear indicator of immediate swipe-away. The first half-second is absolutely critical to stop the scroll. If the visual or audio hook isn't instant, the video dies.",
-        "expected_impact": "Drastically reduce immediate swipe-aways, improving average watch time percentage and pushing videos out of the 'dead on arrival' zone (e.g., 1-88 views) to at least 500+ views consistently."
+        "action": "Implement Curiosity-Gap Title Strategy: Replace generic 'Character Being Character 😭' titles with narrative-driven, curiosity-inducing phrases that highlight the specific conflict, humor, or unexpected twist of the clip.",
+        "why": "Current titles offer no incentive to click. A well-crafted curiosity gap title compels viewers to watch to find out what happens, significantly improving click-through rates (CTR).",
+        "expected_impact": "Increase CTR by 5-10%, leading to a 50-100% increase in views for videos that currently get ~1k views, pushing them into the 2k-3k range."
       },
       {
         "priority": 3,
-        "action": "Review content selection: Are these truly the *most* viral, funny, or iconic moments from Friends? Focus on clips that have a clear setup and punchline within 20-35 seconds, or highly relatable character moments.",
-        "why": "Even with perfect titles and hooks, if the underlying clip isn't inherently engaging for a Shorts audience, performance will be capped. The current low view counts suggest the clips themselves might not be optimized for short-form virality.",
-        "expected_impact": "Improved overall watch time and re-watch loops, leading to a higher algorithmic push and a more consistent baseline of 3,000-5,000+ views per Short."
+        "action": "Integrate Specific Call-to-Actions (CTAs) in Captions: End every caption with a direct, open-ended question related to the clip's content to solicit comments.",
+        "why": "Comment engagement is virtually non-existent. Comments are a powerful signal to the YouTube algorithm that content is engaging and fosters community, leading to broader distribution.",
+        "expected_impact": "Increase comment count by 5-10x per video, boosting algorithmic favorability and potentially increasing views by 20-30% as the algorithm sees more interaction."
       }
     ]
   },
   "channel2_analysis": {
     "name": "HIMYM Clips",
-    "avg_views": 11689,
+    "avg_views": 11244,
     "best_video": {
       "title": "Marshall & Lily 😭 | HIMYM S1E6",
       "views": 26803,
       "url": "https://youtu.be/uOIayd8hBDE"
     },
     "worst_video": {
-      "title": "Ted's boss proudly unveils his new skyscraper design, completely oblivious to its shape 🍆",
-      "views": 3,
-      "url": "https://youtu.be/B9T_EinKAJA"
+      "title": "Barney's Schemes 😭 | HIMYM S2E7",
+      "views": 0,
+      "url": "https://youtu.be/7sD3dMFYbRg"
     },
     "trend": "stable",
     "issues": [
-      "Catastrophic failure of the new descriptive title format (two videos with 3 views each), indicating a complete misjudgment of audience expectations or clip suitability for this style.",
-      "Inconsistent performance, with some videos significantly underperforming the channel average (e.g., 3k-6k views vs. 10k-20k+), suggesting variability in clip selection or hook execution.",
-      "Reliance on generic 'Character's [Action] 😭' titles, while currently effective, may limit long-term growth and niche expansion if not refined.",
-      "Engagement (likes/comments) could be higher given the view counts, indicating a missed opportunity for community building."
+      "Inconsistent Hook Performance: Despite overall strong performance, recent videos with 0-3 views indicate a recurring failure in the initial hook, mirroring the Friends channel's critical issue.",
+      "Low Comment Engagement: Similar to Friends, comment counts are extremely low even on videos with tens of thousands of views, a significant missed opportunity for algorithmic boosting and community building.",
+      "Over-reliance on Generic Titles: Many high-performing videos still use generic 'Character's Schemes 😭' titles. While some succeed, this limits potential reach and clickability for new audiences."
     ],
     "wins": [
-      "Strong overall view performance, with many videos consistently achieving 10k-20k+ views, demonstrating significant viral potential.",
-      "Specific character/theme categories ('Barney's Schemes', 'Marshall & Lily') consistently resonate well with the audience.",
-      "Proven ability to go viral within the niche, indicating a strong understanding of the core audience's preferences."
+      "Proven Viral Potential: The channel consistently produces videos reaching 10k-20k+ views, demonstrating strong content selection and audience resonance.",
+      "Consistent Posting Schedule: Maintains a regular upload frequency, which is crucial for algorithmic consistency."
     ],
     "top_actions": [
       {
         "priority": 1,
-        "action": "Immediately revert to the 'Character's [Action] 😭 | HIMYM S[X]E[Y]' title format for *all* new uploads. The current descriptive titles are killing videos instantly.",
-        "why": "The new descriptive titles are performing catastrophically (3 views), indicating a complete failure to resonate with the algorithm or audience. The generic format, while basic, has proven to generate 10k-20k+ views consistently and is essential for stabilizing performance.",
-        "expected_impact": "Restore baseline performance to 10,000-20,000+ views per Short, preventing further 'dead on arrival' videos and stabilizing channel growth."
+        "action": "Immediate Hook Audit & Refinement: Analyze the first 3 seconds of the 0-3 view videos against your most successful clips. Identify the precise differences in visual appeal, immediate context, and pacing that cause the failures.",
+        "why": "These 'dead' videos are a critical anomaly for a channel with proven success. Pinpointing the exact hook flaw (e.g., slow start, confusing visual, lack of immediate payoff) is essential to prevent future wasted content and maintain consistent high performance.",
+        "expected_impact": "Eliminate future 0-3 view videos, ensuring a higher floor for all uploads and preventing algorithmic penalties from failed content, leading to a 5-10% increase in overall channel views."
       },
       {
         "priority": 2,
-        "action": "Conduct a deep dive analysis on the *specific clips* used for the two 3-view videos. Identify precisely why the first 0.5-1 second failed to hook viewers, despite the descriptive title. Was the visual unengaging? Was the audio unclear? Was the clip itself simply not strong enough?",
-        "why": "Even with a good title, a weak visual or audio hook will lead to immediate swipes. Understanding this failure point is crucial for future content selection and editing, preventing similar catastrophic failures.",
-        "expected_impact": "Improve the selection and editing of future clips, ensuring stronger initial retention and reducing the chance of similar catastrophic failures (e.g., 3 views) to near zero."
+        "action": "Diversify & Optimize Title Formats: Experiment with more descriptive, emotionally resonant, or curiosity-driven titles that go beyond 'Character's Schemes 😭'. Focus on the specific plot point, punchline, or emotional arc of the clip.",
+        "why": "While current titles work for some, more engaging and specific titles can attract a broader audience and improve CTR for existing viewers, especially those not already familiar with the specific episode.",
+        "expected_impact": "Increase CTR by 2-5%, leading to a 10-20% increase in views for videos currently performing in the 5k-15k range, pushing more into the 20k+ bracket."
       },
       {
         "priority": 3,
-        "action": "Experiment with adding a subtle, on-screen text overlay in the first 1-2 seconds that poses a question related to the clip's content (e.g., 'What did Ted's boss design?!' or 'Barney's craziest scheme?').",
-        "why": "To enhance the hook without relying solely on the title or audio, providing an additional layer of engagement for viewers scrolling silently and potentially increasing curiosity.",
-        "expected_impact": "Marginal increase in initial watch time and reduction in swipe-away rate, potentially boosting average views by 5-10% on top-performing videos (e.g., an additional 500-2,000 views per viral Short)."
+        "action": "Implement Aggressive Comment CTAs: Consistently include a clear, engaging, and open-ended question in every video's caption to prompt viewer comments.",
+        "why": "Despite high views, comment engagement is critically low. Comments are a strong indicator of community and content value to the YouTube algorithm, significantly boosting distribution.",
+        "expected_impact": "Increase comment count by 5-10x per video, boosting algorithmic favorability and potentially increasing views by 10-20% for videos that already perform well."
       }
     ]
   }
